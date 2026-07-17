@@ -1,0 +1,45 @@
+name: Native Apple matrix
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  swiftui:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select newest installed Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)/Contents/Developer"
+      - name: Build and test SwiftUI Token Gallery
+        working-directory: fixtures/swiftui
+        run: |
+          xcodebuild test \
+            -project TokenGallery.xcodeproj \
+            -scheme TokenGallery \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=latest'
+
+  react-native-ios:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+          cache: npm
+          cache-dependency-path: fixtures/react-native/package.json
+      - name: Install JavaScript dependencies and native pods
+        working-directory: fixtures/react-native
+        run: |
+          npm install
+          bundle install
+          bundle exec pod install --project-directory=ios
+      - name: Build iOS debug application
+        working-directory: fixtures/react-native
+        run: xcodebuild -workspace ios/TokenGallery.xcworkspace -scheme TokenGallery -configuration Debug -sdk iphonesimulator build

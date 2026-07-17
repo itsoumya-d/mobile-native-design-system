@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Native Component Forge"
+  short_description: "Plan native mobile components and states"
+  default_prompt: "Use $mobile-native-component-forge to plan a Flutter component with every interaction and async state."

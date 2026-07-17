@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Native Audit"
+  short_description: "Audit mobile screens one at a time"
+  default_prompt: "Use $mobile-native-audit to inspect this Flutter screen and propose safe native improvements."

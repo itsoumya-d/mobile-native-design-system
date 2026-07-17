@@ -1,0 +1,17 @@
+.DS_Store
+.dart_tool/
+.gradle/
+.idea/
+DerivedData/
+Pods/
+build/
+node_modules/
+coverage/
+*.xcresult
+*.iml
+__pycache__/
+*.pyc
+generated/
+!fixtures/flutter/lib/generated/
+!fixtures/react-native/src/generated/
+!fixtures/swiftui/TokenGallery/Sources/Generated/

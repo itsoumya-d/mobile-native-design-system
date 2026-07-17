@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mobile-native-design-system.local/tokens.schema.json",
+  "title": "DTCG 2025.10 Mobile-Native Token Contract",
+  "type": "object",
+  "required": [
+    "$schema",
+    "$extensions",
+    "color",
+    "opacity",
+    "typography",
+    "spacing",
+    "sizing",
+    "iconography",
+    "touchTarget",
+    "radius",
+    "stroke",
+    "elevation",
+    "layout",
+    "zIndex",
+    "motion",
+    "haptic",
+    "component"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://www.designtokens.org/schemas/2025.10/format.json"
+    },
+    "$extensions": {
+      "type": "object",
+      "required": ["org.mobile-native"],
+      "properties": {
+        "org.mobile-native": {
+          "type": "object",
+          "required": ["logicalUnits", "profiles"],
+          "properties": {
+            "logicalUnits": {
+              "type": "object",
+              "required": ["swiftui", "compose", "reactNative", "flutter"],
+              "additionalProperties": {"type": "string"}
+            },
+            "profiles": {
+              "type": "object",
+              "required": [
+                "base",
+                "light",
+                "dark",
+                "highContrast",
+                "ios",
+                "android",
+                "reducedMotion"
+              ],
+              "not": {
+                "anyOf": [
+                  {"required": ["web"]},
+                  {"required": ["desktop"]},
+                  {"required": ["browser"]}
+                ]
+              },
+              "additionalProperties": {"$ref": "#/$defs/profile"}
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "patternProperties": {
+    "^(color|opacity|typography|spacing|sizing|iconography|touchTarget|radius|stroke|elevation|layout|zIndex|motion|haptic|component)$": {
+      "$ref": "#/$defs/group"
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "properties": {
+        "extends": {"type": "string"},
+        "overrides": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": ["overrides"],
+      "additionalProperties": false
+    },
+    "token": {
+      "type": "object",
+      "required": ["$value"],
+      "properties": {
+        "$type": {"type": "string"},
+        "$value": true,
+        "$description": {"type": "string"},
+        "$deprecated": {"oneOf": [{"type": "boolean"}, {"type": "string"}]},
+        "$extensions": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "group": {
+      "type": "object",
+      "properties": {
+        "$type": {"type": "string"},
+        "$description": {"type": "string"},
+        "$extensions": {"type": "object"},
+        "$root": {"$ref": "#/$defs/token"}
+      },
+      "additionalProperties": {
+        "oneOf": [
+          {"$ref": "#/$defs/token"},
+          {"$ref": "#/$defs/group"}
+        ]
+      }
+    }
+  }
+}

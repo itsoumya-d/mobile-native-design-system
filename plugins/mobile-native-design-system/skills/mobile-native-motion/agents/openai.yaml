@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Native Motion"
+  short_description: "Specify native mobile motion and reduced motion"
+  default_prompt: "Use $mobile-native-motion to create a Flutter-native motion recipe with reduced-motion behavior."

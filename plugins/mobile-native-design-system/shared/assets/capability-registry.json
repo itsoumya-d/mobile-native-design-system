@@ -1,0 +1,149 @@
+{
+  "format": "mobile-native-capability-registry/1",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "direction.subject-and-hierarchy",
+      "triggers": ["new screen", "redesign", "art direction", "generic interface"],
+      "priority": 100,
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "frontend-design",
+      "native_mapping": "Write the user job, subject, hierarchy, signature interaction, and critique gate before selecting native primitives.",
+      "validation_rule": "A screen brief names hierarchy, primary action, and one subject-specific decision.",
+      "legal_treatment": "adapted independently from Apache-2.0 concepts; notice retained",
+      "web_runtime_rejection": "Reject hero, hover, page, and browser-output directives; use screens, touch, gestures, sheets, and system navigation."
+    },
+    {
+      "id": "intelligence.search-and-revalidate",
+      "triggers": ["design system", "token choice", "scale audit", "component research"],
+      "priority": 100,
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "ui-ux-pro-max",
+      "native_mapping": "Query a compact mobile intelligence catalog, then validate recommendations against the selected framework and platform guidance.",
+      "validation_rule": "Every recommendation identifies a native primitive, a token family, and an applicable platform.",
+      "legal_treatment": "independently authored catalog informed by MIT-licensed source structure; notice retained",
+      "web_runtime_rejection": "Do not emit utility classes, stylesheet output, browser breakpoints, or web component code."
+    },
+    {
+      "id": "taste.design-dials",
+      "triggers": ["ambiguous brief", "generic output", "design critique", "visual direction"],
+      "priority": 95,
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "design-taste-frontend",
+      "native_mapping": "Set deliberate density, contrast, shape, typography, and motion dials for a touch-first screen.",
+      "validation_rule": "The critique records selected dials and rejects at least one generic or mismatched visual choice.",
+      "legal_treatment": "adapted independently from MIT-licensed concepts; notice retained",
+      "web_runtime_rejection": "Reject DOM, stylesheet, landing-page, and web-vitals instructions."
+    },
+    {
+      "id": "component.registry-discovery",
+      "triggers": ["React Native component", "component registry", "registry discovery"],
+      "priority": 75,
+      "frameworks": ["react-native"],
+      "source_family": "shadcn-ui-mcp-server",
+      "native_mapping": "Use compatible React Native registry metadata only to discover a component shape; compose it from local native primitives and tokens.",
+      "validation_rule": "The chosen component has native semantics, states, and no mandatory external service.",
+      "legal_treatment": "independently authored routing from MIT-licensed source capabilities; notice retained",
+      "web_runtime_rejection": "Never use a registry as a Flutter, SwiftUI, or Compose dependency and never import web component output."
+    },
+    {
+      "id": "component.local-refinement",
+      "triggers": ["component idea", "refine component", "natural language component"],
+      "priority": 85,
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "21st.dev-magic-mcp",
+      "native_mapping": "Run a local brief-to-constraints-to-component plan with interaction, async, semantic, and adaptive states.",
+      "validation_rule": "The emitted plan is reproducible locally and names target-framework primitives.",
+      "legal_treatment": "concept-only; no copied prose or code because the source license is incomplete",
+      "web_runtime_rejection": "Do not call or require a remote component API, DOM output, or browser runtime."
+    },
+    {
+      "id": "react-native.render-state",
+      "triggers": ["React Native render", "state derivation", "memoization", "slow render"],
+      "priority": 85,
+      "frameworks": ["react-native"],
+      "source_family": "vercel-react-best-practices",
+      "native_mapping": "Keep state local, derive values instead of duplicating state, stabilize list identity, and measure before memoizing.",
+      "validation_rule": "A render or list change has a focused test or measured rationale and preserves interaction behavior.",
+      "legal_treatment": "independently summarized from MIT-declared skill guidance; notice retained",
+      "web_runtime_rejection": "Reject SSR, server components, browser caches, Next.js, DOM APIs, and web bundle guidance."
+    },
+    {
+      "id": "motion.timeline-and-easing",
+      "triggers": ["motion", "timeline", "sequence", "easing", "stagger"],
+      "priority": 95,
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "gsap-master",
+      "native_mapping": "Translate named phases, easing, duration, and stagger to AnimationController, Animated, SwiftUI Animation, or Compose transition primitives.",
+      "validation_rule": "The recipe has an interruptible resting state and a reduced-motion equivalent.",
+      "legal_treatment": "independently authored translation of MIT-licensed concepts; notice retained",
+      "web_runtime_rejection": "Never install the source animation runtime or emit timeline code for a browser."
+    },
+    {
+      "id": "motion.variants-presence-gesture",
+      "triggers": ["variants", "presence", "spring", "gesture", "shared transition"],
+      "priority": 95,
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "motion-framer",
+      "native_mapping": "Map variant states, springs, entry and exit, gestures, and shared continuity to native platform animation APIs.",
+      "validation_rule": "Every transition defines state names, cancellation behavior, and a no-distance reduced-motion fallback.",
+      "legal_treatment": "independently authored translation of MIT-licensed concepts; notice retained",
+      "web_runtime_rejection": "Never install the source runtime or generate browser animation APIs."
+    },
+    {
+      "id": "data.component-boundary",
+      "triggers": ["Convex", "data-backed component", "loading state", "error state"],
+      "priority": 80,
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "convex-create-component",
+      "native_mapping": "Keep backend access at the application boundary and pass typed loading, empty, error, retry, and populated UI states into presentation components.",
+      "validation_rule": "A component can render all async states without importing backend internals.",
+      "legal_treatment": "concept-only; no copied prose or code because the repository has no license",
+      "web_runtime_rejection": "Do not add a backend SDK, server action, or web data framework unless the app already owns that integration."
+    },
+    {
+      "id": "react-native.platform-quality",
+      "triggers": ["Expo", "FlatList", "image", "navigation", "React Native performance"],
+      "priority": 100,
+      "frameworks": ["react-native"],
+      "source_family": "vercel-react-native-skills",
+      "native_mapping": "Audit list virtualization, images, navigation, gestures, accessibility, insets, text scaling, and animation using React Native APIs; apply Expo rules only when Expo is detected.",
+      "validation_rule": "The audit records framework detection and avoids Expo-only APIs in a bare project.",
+      "legal_treatment": "independently summarized from MIT-declared skill guidance; notice retained",
+      "web_runtime_rejection": "Reject browser, DOM, SSR, and web performance rules."
+    },
+    {
+      "id": "flutter.native-composition",
+      "triggers": ["Flutter", "Dart", "widget", "Material", "Cupertino"],
+      "priority": 100,
+      "frameworks": ["flutter"],
+      "source_family": "mobile-original",
+      "native_mapping": "Use app-appropriate Material or Cupertino widgets, ThemeExtension, LayoutBuilder, TextScaler, Semantics, SafeArea, and native animation APIs.",
+      "validation_rule": "Widget tests cover semantic state, largest text scale, RTL, compact and tablet constraints, and touch targets.",
+      "legal_treatment": "original mobile guidance",
+      "web_runtime_rejection": "Do not add web plugins, CSS, or any browser runtime to a mobile-only target."
+    },
+    {
+      "id": "swiftui.native-composition",
+      "triggers": ["SwiftUI", "iOS", "iPadOS", "Swift"],
+      "priority": 90,
+      "frameworks": ["swiftui"],
+      "source_family": "mobile-original",
+      "native_mapping": "Use semantic text styles, environment values, dynamic type, size classes, NavigationStack, sheets, accessibility traits, and SwiftUI animations.",
+      "validation_rule": "XCTest and simulator coverage validate size classes, accessibility text, RTL, insets, and reduced motion.",
+      "legal_treatment": "original mobile guidance",
+      "web_runtime_rejection": "Do not translate SwiftUI screens to a browser layout or fixed desktop breakpoint model."
+    },
+    {
+      "id": "compose.native-composition",
+      "triggers": ["Compose", "Kotlin", "Android", "Material3"],
+      "priority": 90,
+      "frameworks": ["compose"],
+      "source_family": "mobile-original",
+      "native_mapping": "Use immutable token types, composition locals, window size classes, Material3, semantics, Insets, font scaling, and Compose animation APIs.",
+      "validation_rule": "Unit, lint, screenshot, and instrumentation coverage validate adaptive layout, semantics, and reduced motion.",
+      "legal_treatment": "original mobile guidance",
+      "web_runtime_rejection": "Do not use web layout, stylesheet, or browser animation APIs."
+    }
+  ]
+}

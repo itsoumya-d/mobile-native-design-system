@@ -1,0 +1,57 @@
+name: Core validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: core-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate public release contract
+        run: python scripts/verify_release.py
+
+  flutter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.0"
+          channel: stable
+      - name: Analyze and test Token Gallery
+        working-directory: fixtures/flutter
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
+
+  react-native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+          cache: npm
+          cache-dependency-path: fixtures/react-native/package.json
+      - name: Test typed React Native gallery
+        working-directory: fixtures/react-native
+        run: |
+          npm install --ignore-scripts
+          npx tsc --noEmit
+          npm test -- --runInBand

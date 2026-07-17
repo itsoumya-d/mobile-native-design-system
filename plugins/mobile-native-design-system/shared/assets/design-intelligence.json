@@ -1,0 +1,77 @@
+{
+  "format": "mobile-design-intelligence/1",
+  "records": [
+    {
+      "id": "flutter.typography.system-scale",
+      "title": "Flutter semantic typography and text scaling",
+      "keywords": ["flutter", "typography", "text", "textscaler", "accessibility"],
+      "frameworks": ["flutter"],
+      "source_family": "ui-ux-pro-max",
+      "guidance": "Use app text roles through ThemeData and inherit TextScaler; let labels wrap before truncating a primary action.",
+      "validation": "Widget tests cover the largest supported text scale."
+    },
+    {
+      "id": "flutter.motion.native",
+      "title": "Flutter motion states",
+      "keywords": ["flutter", "motion", "animation", "spring", "stagger", "gesture"],
+      "frameworks": ["flutter"],
+      "source_family": "motion-framer",
+      "guidance": "Use implicit animation for a single state change and an AnimationController for coordinated phases; remove travel and stagger for reduced motion.",
+      "validation": "A reduced-motion path preserves resting content and actions."
+    },
+    {
+      "id": "flutter.adaptive-layout",
+      "title": "Flutter compact through expanded layout",
+      "keywords": ["flutter", "tablet", "layout", "adaptive", "layoutbuilder", "safearea"],
+      "frameworks": ["flutter"],
+      "source_family": "ui-ux-pro-max",
+      "guidance": "Use LayoutBuilder constraints and logical leading/trailing alignment; consume safe-area insets once.",
+      "validation": "Golden or widget coverage includes compact and tablet constraints."
+    },
+    {
+      "id": "react-native.list-state",
+      "title": "React Native list state and identity",
+      "keywords": ["react native", "list", "flatlist", "render", "state", "performance"],
+      "frameworks": ["react-native"],
+      "source_family": "vercel-react-native-skills",
+      "guidance": "Use native virtualization, stable keys, lightweight rows, and measured render changes.",
+      "validation": "Representative list tests retain interaction state."
+    },
+    {
+      "id": "swiftui.dynamic-type",
+      "title": "SwiftUI dynamic type and sheets",
+      "keywords": ["swiftui", "swift", "typography", "dynamic type", "sheet", "ios"],
+      "frameworks": ["swiftui"],
+      "source_family": "ui-ux-pro-max",
+      "guidance": "Use system text styles, size-class-aware layouts, NavigationStack, and native sheets.",
+      "validation": "Simulator tests retain actions at accessibility text sizes."
+    },
+    {
+      "id": "compose.window-and-semantics",
+      "title": "Compose window sizes and semantics",
+      "keywords": ["compose", "kotlin", "window size", "semantics", "material3", "android"],
+      "frameworks": ["compose"],
+      "source_family": "ui-ux-pro-max",
+      "guidance": "Use Material3, window size classes, semantic modifiers, Insets, and scalable text units.",
+      "validation": "Instrumentation and screenshot checks cover compact, medium, and expanded layouts."
+    },
+    {
+      "id": "all.async-boundary",
+      "title": "Typed async visual states",
+      "keywords": ["loading", "empty", "error", "retry", "async", "data"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "convex-create-component",
+      "guidance": "Keep data access outside presentation components and provide typed loading, empty, error, retry, and populated states.",
+      "validation": "UI tests render every state without a backend dependency."
+    },
+    {
+      "id": "all.subject-critique",
+      "title": "Subject-specific hierarchy",
+      "keywords": ["brief", "hierarchy", "design", "subject", "critique", "generic"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "frontend-design",
+      "guidance": "Name the user job, hierarchy, and one signature interaction before applying visual polish.",
+      "validation": "A critique can name a deliberate product-specific choice."
+    }
+  ]
+}

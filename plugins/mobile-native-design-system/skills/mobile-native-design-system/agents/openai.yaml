@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile-Native Design System"
+  short_description: "Route native mobile UI and token work"
+  default_prompt: "Use $mobile-native-design-system to route and improve this Flutter mobile interface without a web runtime."

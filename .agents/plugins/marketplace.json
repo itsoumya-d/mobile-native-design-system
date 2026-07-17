@@ -1,0 +1,20 @@
+{
+  "name": "mobile-native-design-system",
+  "interface": {
+    "displayName": "Mobile-Native Design System"
+  },
+  "plugins": [
+    {
+      "name": "mobile-native-design-system",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mobile-native-design-system"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

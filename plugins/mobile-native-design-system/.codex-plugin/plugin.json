@@ -1,0 +1,35 @@
+{
+  "name": "mobile-native-design-system",
+  "version": "1.0.0",
+  "description": "Flutter-first native mobile design, component, motion, audit, and typed-token tooling for Codex.",
+  "author": { "name": "Soumya Debnath" },
+  "license": "MIT",
+  "keywords": [
+    "flutter",
+    "react-native",
+    "swiftui",
+    "jetpack-compose",
+    "mobile-design",
+    "design-system",
+    "accessibility",
+    "motion"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Mobile-Native Design System",
+    "shortDescription": "Flutter-first mobile UI, motion, tokens, and audits.",
+    "longDescription": "A mobile-only plugin that routes design direction, component plans, native motion, accessibility, tokens, and screen audits to Flutter first and to React Native, SwiftUI, and Compose adapters when needed.",
+    "developerName": "Soumya Debnath",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Flutter-first native component planning",
+      "Native motion recipes",
+      "Screen-by-screen UX and accessibility audits",
+      "Typed cross-platform design tokens"
+    ],
+    "defaultPrompt": "Use $mobile-native-design-system to improve this Flutter screen with native components, motion, accessibility, and typed tokens; do not add a web runtime.",
+    "brandColor": "#02569B",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "lock_version": 1,
+  "captured_at": "2026-07-17",
+  "deep_review_policy": "Named skills and direct local dependencies only",
+  "sources": [
+    {
+      "url": "https://github.com/anthropics/skills",
+      "sha": "fa0fa64bdc967915dc8399e803be67759e1e62b8",
+      "default_branch": "main",
+      "requested_skills": ["skills/frontend-design"],
+      "dependency_paths": ["skills/frontend-design/LICENSE.txt"],
+      "license_status": "Apache-2.0 in skill-local LICENSE.txt"
+    },
+    {
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "sha": "f8ac5e1266dba8354ea96e19994d9f4345e7ec31",
+      "default_branch": "main",
+      "requested_skills": ["src/ui-ux-pro-max"],
+      "dependency_paths": [
+        "src/ui-ux-pro-max/data/**/*.csv",
+        "src/ui-ux-pro-max/scripts/{core,search,design_system,validate_data}.py",
+        "src/ui-ux-pro-max/templates/base/*.md",
+        "src/ui-ux-pro-max/templates/platforms/codex.json",
+        "cli/src/{commands/init.ts,utils/template.ts}"
+      ],
+      "license_status": "MIT root LICENSE"
+    },
+    {
+      "url": "https://github.com/Leonxlnx/taste-skill",
+      "sha": "7b3782a65f89eb53ab67af4ac40b689704e5a876",
+      "default_branch": "main",
+      "requested_skills": ["skills/taste-skill"],
+      "dependency_paths": [],
+      "license_status": "MIT root LICENSE"
+    },
+    {
+      "url": "https://github.com/Jpisnice/shadcn-ui-mcp-server",
+      "sha": "45d615f0950b49e7618b129fab8d637ebf44f3da",
+      "default_branch": "master",
+      "requested_skills": ["react-native component registry MCP path"],
+      "dependency_paths": [
+        "src/tools/components/*.ts",
+        "src/tools/blocks/{get-block,list-blocks}.ts",
+        "src/utils/{framework,axios-react-native}.ts",
+        "src/{schemas,server,cli}/selected runtime paths"
+      ],
+      "license_status": "MIT root LICENSE"
+    },
+    {
+      "url": "https://github.com/21st-dev/magic-mcp",
+      "sha": "b07bc9d1c0ce6fa7d70d831c103ffa7b71b4f8f8",
+      "default_branch": "main",
+      "requested_skills": ["component builder, inspiration, and refiner MCP paths"],
+      "dependency_paths": ["src/tools/*.ts", "src/utils/selected runtime paths"],
+      "license_status": "README claims MIT; complete LICENSE file absent"
+    },
+    {
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "sha": "f8a72b9603728bb92a217a879b7e62e43ad76c81",
+      "default_branch": "main",
+      "requested_skills": ["skills/react-best-practices", "skills/react-native-skills"],
+      "dependency_paths": [
+        "skills/react-best-practices/{AGENTS.md,rules/*.md,README.md}",
+        "skills/react-native-skills/{AGENTS.md,rules/*.md,README.md,metadata.json}"
+      ],
+      "license_status": "Individual skill frontmatter declares MIT; root license absent"
+    },
+    {
+      "url": "https://github.com/greensock/gsap-skills",
+      "sha": "aed9cfd3277740755f6bfc1155c7aa645403b760",
+      "default_branch": "main",
+      "requested_skills": [
+        "gsap-core",
+        "gsap-timeline",
+        "gsap-plugins",
+        "gsap-scrolltrigger",
+        "gsap-react",
+        "gsap-frameworks",
+        "gsap-utils",
+        "gsap-performance"
+      ],
+      "dependency_paths": ["AGENTS.md", "skills/llms.txt"],
+      "license_status": "MIT root LICENSE"
+    },
+    {
+      "url": "https://github.com/freshtechbro/claudedesignskills",
+      "sha": "1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd",
+      "default_branch": "main",
+      "requested_skills": [".claude/skills/motion-framer"],
+      "dependency_paths": [
+        ".claude/skills/motion-framer/{references,scripts,assets}/**/*",
+        "plugins/individual/motion-framer/{.claude-plugin,commands,agents}"
+      ],
+      "missing_declared_dependencies": [
+        ".claude/skills/motion-framer/references/variants_patterns.md",
+        ".claude/skills/motion-framer/references/gesture_guide.md"
+      ],
+      "license_status": "MIT root LICENSE"
+    },
+    {
+      "url": "https://github.com/get-convex/agent-skills",
+      "sha": "ec1e6baae7d86c7843c22938c75979c016f5c6e9",
+      "default_branch": "main",
+      "requested_skills": ["skills/convex-create-component"],
+      "dependency_paths": [
+        "skills/convex-create-component/references/*.md",
+        "skills/convex-create-component/agents/openai.yaml",
+        "skills/convex-create-component/assets/icon.svg"
+      ],
+      "license_status": "No repository LICENSE or NOTICE file"
+    }
+  ]
+}
