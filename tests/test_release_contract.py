@@ -101,6 +101,16 @@ class ReleaseContractTests(unittest.TestCase):
                     failures.append(f"{path.relative_to(ROOT)}: {match.group(0)}")
         self.assertEqual([], failures)
 
+    def test_compose_fixture_applies_kotlin_two_compose_compiler_plugin(self) -> None:
+        compose_root = ROOT / "fixtures" / "compose"
+        root_build = (compose_root / "build.gradle.kts").read_text(encoding="utf-8")
+        app_build = (compose_root / "app" / "build.gradle.kts").read_text(encoding="utf-8")
+        self.assertRegex(
+            root_build,
+            r'id\("org\.jetbrains\.kotlin\.plugin\.compose"\) version "2\.3\.10" apply false',
+        )
+        self.assertIn('id("org.jetbrains.kotlin.plugin.compose")', app_build)
+
 
 if __name__ == "__main__":
     unittest.main()
