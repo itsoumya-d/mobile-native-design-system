@@ -32,8 +32,12 @@ class TokenGalleryTest {
     fun retry_restores_the_populated_state() {
         composeRule.setContent { TokenGalleryApp(initialContent = ContentState.Error) }
 
-        composeRule.onNodeWithText("Try again").performClick()
-        composeRule.onNodeWithText("Build a buffer").performScrollTo().assertIsDisplayed()
+        composeRule.onNodeWithText("Try again")
+            .performScrollTo()
+            .assertIsDisplayed()
+            .performClick()
+        composeRule.waitForIdle()
+        composeRule.onNodeWithText("Build a buffer").assertIsDisplayed()
     }
 
     @Test
