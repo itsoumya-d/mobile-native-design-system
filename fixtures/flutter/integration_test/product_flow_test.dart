@@ -17,7 +17,7 @@ void main() {
 
     await tester.tap(find.text('Check in'));
     await tester.pumpAndSettle();
-    expect(find.text('How are you feeling?'), findsOneWidget);
+    expect(find.text('What changed this week?'), findsOneWidget);
 
     await tester.enterText(find.byType(EditableText), 'Feeling prepared');
     await tester.tap(find.text('Save check-in'));

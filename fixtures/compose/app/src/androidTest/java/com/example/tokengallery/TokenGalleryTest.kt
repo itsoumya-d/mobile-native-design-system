@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -32,7 +33,7 @@ class TokenGalleryTest {
         composeRule.setContent { TokenGalleryApp(initialContent = ContentState.Error) }
 
         composeRule.onNodeWithText("Try again").performClick()
-        composeRule.onNodeWithText("Build a buffer").assertIsDisplayed()
+        composeRule.onNodeWithText("Build a buffer").performScrollTo().assertIsDisplayed()
     }
 
     @Test
