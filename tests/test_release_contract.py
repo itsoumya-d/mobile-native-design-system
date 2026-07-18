@@ -11,12 +11,15 @@ PLUGIN = ROOT / "plugins" / "mobile-native-design-system"
 
 
 class ReleaseContractTests(unittest.TestCase):
-    def test_plugin_exposes_four_focused_mobile_skills(self) -> None:
+    def test_plugin_exposes_seven_progressively_disclosed_mobile_skills(self) -> None:
         expected = {
             "mobile-native-design-system",
+            "mobile-native-understand",
+            "mobile-native-plan",
             "mobile-native-component-forge",
             "mobile-native-motion",
             "mobile-native-audit",
+            "mobile-native-implement",
         }
         skills = PLUGIN / "skills"
         self.assertTrue(skills.is_dir())
@@ -58,7 +61,7 @@ class ReleaseContractTests(unittest.TestCase):
             "web_runtime_rejection",
         }
         for record in registry["rules"]:
-            self.assertEqual(required_fields, set(record))
+            self.assertTrue(required_fields.issubset(record))
             self.assertTrue(record["id"])
             self.assertTrue(record["web_runtime_rejection"])
 

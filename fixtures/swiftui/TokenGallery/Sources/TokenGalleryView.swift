@@ -51,6 +51,14 @@ struct TokenGalleryView: View {
             .background(catalog.color("color.surface.canvas"))
             .navigationTitle("Token Gallery")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    NavigationLink {
+                        ProductFlowView()
+                    } label: {
+                        Image(systemName: "wallet.bifold")
+                    }
+                    .accessibilityLabel("Open production flow")
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         sheet = .tokenDetails

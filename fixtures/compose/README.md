@@ -5,8 +5,8 @@ token contract. The generated Kotlin adapter is under
 `app/src/main/java/mobile/tokens/`; regenerate it instead of hand-editing:
 
 ```sh
-python3 ../../skill/mobile-native-design-system/scripts/mobile_tokens.py generate \
-  ../../skill/mobile-native-design-system/assets/financial-wellbeing.tokens.json \
+python3 ../../plugins/mobile-native-design-system/shared/scripts/mobile_tokens.py generate \
+  ../../plugins/mobile-native-design-system/shared/assets/financial-wellbeing.tokens.json \
   --platform kotlin --out app/src/main/java
 ```
 
@@ -30,13 +30,15 @@ Set `ANDROID_HOME` (or add `android/local.properties`) before native work:
 ```sh
 ./gradlew test lint assembleDebug
 ./gradlew connectedDebugAndroidTest
-python3 ../../skill/mobile-native-design-system/scripts/mobile_tokens.py parity \
-  ../../skill/mobile-native-design-system/assets/financial-wellbeing.tokens.json \
+python3 ../../plugins/mobile-native-design-system/shared/scripts/mobile_tokens.py parity \
+  ../../plugins/mobile-native-design-system/shared/assets/financial-wellbeing.tokens.json \
   app/src/main/java/mobile/tokens
 ```
 
 The gallery covers all token scales, interactive controls, sheet/dialog
 presentation, loading/empty/error states, font scaling, RTL, reduced motion,
-insets, and semantic labels. The instrumentation tests exercise primary and
-error-state semantics; execute them on a phone and tablet API 36 emulator for
-the intended matrix.
+insets, and semantic labels. The production flow adds authentication, list,
+detail, form, settings, sheet, and data-write contracts. Instrumentation tests
+exercise primary and error-state semantics and capture a native visual
+baseline; execute them on phone and tablet API 36 emulators for the intended
+matrix.

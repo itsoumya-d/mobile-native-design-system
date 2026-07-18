@@ -1,77 +1,226 @@
 {
-  "format": "mobile-design-intelligence/1",
+  "format": "mobile-design-intelligence/2",
+  "schema_version": 2,
   "records": [
     {
-      "id": "flutter.typography.system-scale",
-      "title": "Flutter semantic typography and text scaling",
-      "keywords": ["flutter", "typography", "text", "textscaler", "accessibility"],
-      "frameworks": ["flutter"],
-      "source_family": "ui-ux-pro-max",
-      "guidance": "Use app text roles through ThemeData and inherit TextScaler; let labels wrap before truncating a primary action.",
-      "validation": "Widget tests cover the largest supported text scale."
-    },
-    {
-      "id": "flutter.motion.native",
-      "title": "Flutter motion states",
-      "keywords": ["flutter", "motion", "animation", "spring", "stagger", "gesture"],
-      "frameworks": ["flutter"],
-      "source_family": "motion-framer",
-      "guidance": "Use implicit animation for a single state change and an AnimationController for coordinated phases; remove travel and stagger for reduced motion.",
-      "validation": "A reduced-motion path preserves resting content and actions."
-    },
-    {
-      "id": "flutter.adaptive-layout",
-      "title": "Flutter compact through expanded layout",
-      "keywords": ["flutter", "tablet", "layout", "adaptive", "layoutbuilder", "safearea"],
-      "frameworks": ["flutter"],
-      "source_family": "ui-ux-pro-max",
-      "guidance": "Use LayoutBuilder constraints and logical leading/trailing alignment; consume safe-area insets once.",
-      "validation": "Golden or widget coverage includes compact and tablet constraints."
-    },
-    {
-      "id": "react-native.list-state",
-      "title": "React Native list state and identity",
-      "keywords": ["react native", "list", "flatlist", "render", "state", "performance"],
-      "frameworks": ["react-native"],
-      "source_family": "vercel-react-native-skills",
-      "guidance": "Use native virtualization, stable keys, lightweight rows, and measured render changes.",
-      "validation": "Representative list tests retain interaction state."
-    },
-    {
-      "id": "swiftui.dynamic-type",
-      "title": "SwiftUI dynamic type and sheets",
-      "keywords": ["swiftui", "swift", "typography", "dynamic type", "sheet", "ios"],
-      "frameworks": ["swiftui"],
-      "source_family": "ui-ux-pro-max",
-      "guidance": "Use system text styles, size-class-aware layouts, NavigationStack, and native sheets.",
-      "validation": "Simulator tests retain actions at accessibility text sizes."
-    },
-    {
-      "id": "compose.window-and-semantics",
-      "title": "Compose window sizes and semantics",
-      "keywords": ["compose", "kotlin", "window size", "semantics", "material3", "android"],
-      "frameworks": ["compose"],
-      "source_family": "ui-ux-pro-max",
-      "guidance": "Use Material3, window size classes, semantic modifiers, Insets, and scalable text units.",
-      "validation": "Instrumentation and screenshot checks cover compact, medium, and expanded layouts."
-    },
-    {
-      "id": "all.async-boundary",
-      "title": "Typed async visual states",
-      "keywords": ["loading", "empty", "error", "retry", "async", "data"],
-      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
-      "source_family": "convex-create-component",
-      "guidance": "Keep data access outside presentation components and provide typed loading, empty, error, retry, and populated states.",
-      "validation": "UI tests render every state without a backend dependency."
-    },
-    {
-      "id": "all.subject-critique",
-      "title": "Subject-specific hierarchy",
-      "keywords": ["brief", "hierarchy", "design", "subject", "critique", "generic"],
+      "id": "direction.screen-job",
+      "title": "Native screen job and hierarchy",
+      "category": "direction",
+      "keywords": ["screen", "design", "hierarchy", "navigation", "component", "user job"],
       "frameworks": ["flutter", "react-native", "swiftui", "compose"],
       "source_family": "frontend-design",
-      "guidance": "Name the user job, hierarchy, and one signature interaction before applying visual polish.",
-      "validation": "A critique can name a deliberate product-specific choice."
+      "guidance": "Name the concrete user job, primary action, content order, and platform presentation surface before visual changes.",
+      "benefit": "Makes the screen easier to understand.",
+      "validation": "Every existing action is represented in the hierarchy and behavior contract."
+    },
+    {
+      "id": "direction.signature-restraint",
+      "title": "One product-specific native interaction",
+      "category": "critique",
+      "keywords": ["screen", "design", "motion", "gesture", "component", "critique"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "frontend-design",
+      "guidance": "Use at most one signature interaction that improves feedback or continuity, then critique it before and after implementation.",
+      "benefit": "Adds identity without visual noise.",
+      "validation": "The interaction has a user-benefit rationale and reduced-motion fallback."
+    },
+    {
+      "id": "intelligence.semantic-scales",
+      "title": "Semantic mobile scales",
+      "category": "design-system",
+      "keywords": ["design", "component", "typography", "color", "spacing", "accessibility", "state"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "ui-ux-pro-max",
+      "guidance": "Consolidate observed raw values into semantic color, type, spacing, shape, motion, target, and state roles.",
+      "benefit": "Improves consistency and accessibility across screens.",
+      "validation": "Typed native adapters expose complete semantic parity."
+    },
+    {
+      "id": "intelligence.adaptive-accessibility",
+      "title": "Adaptive and accessible mobile priority",
+      "category": "ux",
+      "keywords": ["screen", "navigation", "accessibility", "state", "tablet", "rtl", "keyboard"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "ui-ux-pro-max",
+      "guidance": "Prioritize semantics, text scaling, RTL, keyboard, safe areas, touch targets, and compact-to-tablet layout.",
+      "benefit": "Makes production flows usable by more people and devices.",
+      "validation": "Automated coverage includes the supported accessibility and adaptive matrix."
+    },
+    {
+      "id": "taste.design-read",
+      "title": "Evidence-backed mobile Design Read",
+      "category": "direction",
+      "keywords": ["screen", "design", "component", "brand", "critique", "state"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "design-taste-frontend",
+      "guidance": "Separate observed product language into preserve, improve, and uncertain decisions before redesign.",
+      "benefit": "Protects existing identity and behavior.",
+      "validation": "Every decision cites current code or an explicit uncertainty."
+    },
+    {
+      "id": "taste.dials-and-restraint",
+      "title": "Native density, motion, and variance dials",
+      "category": "critique",
+      "keywords": ["design", "motion", "component", "density", "accessibility", "critique"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "design-taste-frontend",
+      "guidance": "Set explicit density, contrast, shape, typography, motion, and variance dials and reject decoration without user benefit.",
+      "benefit": "Creates coherent, restrained visual direction.",
+      "validation": "Dials map to native tokens or behavior and retain accessibility."
+    },
+    {
+      "id": "catalog.component-intent",
+      "title": "Platform-neutral component intent",
+      "category": "component",
+      "keywords": ["component", "screen", "state", "navigation", "accessibility", "catalog"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "shadcn-ui-mcp-server",
+      "guidance": "Select a component contract by intent, required states, semantics, and adaptive behavior before choosing a native primitive.",
+      "benefit": "Reuses design knowledge without importing incompatible code.",
+      "validation": "The selected primitive belongs to the target framework."
+    },
+    {
+      "id": "catalog.registry-boundary",
+      "title": "Optional React Native registry boundary",
+      "category": "component",
+      "keywords": ["component", "react native", "registry", "state", "accessibility", "design"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "shadcn-ui-mcp-server",
+      "guidance": "Use compatible registry metadata only for React Native discovery; map the same intent independently for Flutter, SwiftUI, and Compose.",
+      "benefit": "Keeps every platform native and dependency-free.",
+      "validation": "Non-React targets contain no React implementation or dependency."
+    },
+    {
+      "id": "forge.context-workflow",
+      "title": "Context to native component plan",
+      "category": "component",
+      "keywords": ["component", "screen", "design", "state", "constraints", "alternatives"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "21st.dev-magic-mcp",
+      "guidance": "Convert request and code evidence into intent, constraints, alternatives, selection, integration, and refinement.",
+      "benefit": "Produces product-specific native components locally.",
+      "validation": "The plan includes behavior invariants and bounded file scope."
+    },
+    {
+      "id": "forge.refinement-gate",
+      "title": "Native integration refinement",
+      "category": "implementation",
+      "keywords": ["component", "screen", "motion", "accessibility", "state", "integration"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "21st.dev-magic-mcp",
+      "guidance": "Refine the selected native composition against existing tokens, architecture, semantics, motion, and verification.",
+      "benefit": "Turns an idea into a safe implementation contract.",
+      "validation": "Only approved UI files change and a guard receipt is produced."
+    },
+    {
+      "id": "reactive.state-ownership",
+      "title": "Reactive state ownership",
+      "category": "architecture",
+      "keywords": ["state", "component", "screen", "performance", "event", "render"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "vercel-react-best-practices",
+      "guidance": "Keep state at its current owner, derive presentation values, preserve event ownership, and use immutable updates.",
+      "benefit": "Avoids stale UI and behavior regressions.",
+      "validation": "State-transition and interaction tests remain unchanged."
+    },
+    {
+      "id": "reactive.identity-boundary",
+      "title": "Stable identity and render boundary",
+      "category": "performance",
+      "keywords": ["state", "component", "screen", "list", "performance", "async"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "vercel-react-best-practices",
+      "guidance": "Preserve stable collection identity and isolate expensive presentation only where project evidence supports it.",
+      "benefit": "Keeps selection, focus, and scrolling reliable.",
+      "validation": "Representative interaction state survives updates and redesign."
+    },
+    {
+      "id": "timeline.native-sequence",
+      "title": "Labeled native motion sequence",
+      "category": "motion",
+      "keywords": ["motion", "screen", "component", "state", "timeline", "sequence"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "gsap-master",
+      "guidance": "Model multi-phase motion with named states, labels, timing, interruption, and a stable resting state through native APIs.",
+      "benefit": "Makes coordinated motion predictable and maintainable.",
+      "validation": "Rapid interaction and screen teardown leave the UI in a valid state."
+    },
+    {
+      "id": "timeline.stagger-budget",
+      "title": "Bounded native stagger and lifecycle",
+      "category": "motion",
+      "keywords": ["motion", "component", "state", "stagger", "performance", "accessibility"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "gsap-master",
+      "guidance": "Cap stagger, bind animation ownership to screen lifecycle, and remove stagger and travel for reduced motion.",
+      "benefit": "Adds rhythm without delaying interaction or causing leaks.",
+      "validation": "Performance budget, cancellation, cleanup, and reduced-motion tests pass."
+    },
+    {
+      "id": "variants.native-presence",
+      "title": "Native variants and presence",
+      "category": "motion",
+      "keywords": ["motion", "screen", "component", "state", "presence", "accessibility"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "motion-framer",
+      "guidance": "Represent visual variants as typed UI state and map entrance and exit to native transitions.",
+      "benefit": "Keeps motion synchronized with product state.",
+      "validation": "Every variant has an accessible resting representation."
+    },
+    {
+      "id": "variants.gesture-continuity",
+      "title": "Native gesture and shared continuity",
+      "category": "motion",
+      "keywords": ["motion", "navigation", "component", "state", "gesture", "shared transition"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "motion-framer",
+      "guidance": "Use native press or drag recognition, explicit cancellation, and shared transitions only with stable identity.",
+      "benefit": "Makes touch and navigation continuity understandable.",
+      "validation": "System gestures, cancellation, reduced motion, and accessible alternatives are covered."
+    },
+    {
+      "id": "data.async-contract",
+      "title": "Typed async presentation contract",
+      "category": "data-boundary",
+      "keywords": ["state", "component", "screen", "loading", "error", "retry"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "convex-create-component",
+      "guidance": "Render typed loading, empty, error, retry, and populated states without importing backend internals.",
+      "benefit": "Makes recovery clear while keeping presentation testable.",
+      "validation": "All states render without a live backend."
+    },
+    {
+      "id": "data.app-boundary",
+      "title": "Small app-facing data boundary",
+      "category": "architecture",
+      "keywords": ["state", "component", "screen", "repository", "service", "authentication"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "convex-create-component",
+      "guidance": "Keep repository, service, auth, and environment ownership outside reusable visual components.",
+      "benefit": "Lets UI change without destabilizing data or security behavior.",
+      "validation": "Protected calls, types, permissions, and auth boundaries remain unchanged."
+    },
+    {
+      "id": "native.product-quality",
+      "title": "Native navigation, list, image, and modal quality",
+      "category": "native-quality",
+      "keywords": ["navigation", "screen", "component", "state", "list", "accessibility"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "vercel-react-native-skills",
+      "guidance": "Apply measured native lessons for navigation, virtualization, images, modals, safe areas, text scaling, and performance.",
+      "benefit": "Improves production reliability across mobile frameworks.",
+      "validation": "Native route, list, image, inset, and accessibility tests pass."
+    },
+    {
+      "id": "native.react-native-depth",
+      "title": "React Native and Expo depth with native parity",
+      "category": "native-quality",
+      "keywords": ["react native", "expo", "navigation", "motion", "state", "performance"],
+      "frameworks": ["flutter", "react-native", "swiftui", "compose"],
+      "source_family": "vercel-react-native-skills",
+      "guidance": "Use API-specific React Native and Expo rules only when detected, and translate only their platform-neutral product lesson elsewhere.",
+      "benefit": "Provides deep React Native support without false portability.",
+      "validation": "Every generated API belongs to the detected framework and Expo rules are conditional."
     }
   ]
 }

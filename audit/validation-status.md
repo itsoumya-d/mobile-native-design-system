@@ -1,36 +1,45 @@
 # Validation Status
 
+Validated locally on 2026-07-18. This file separates proven repository and
+compiler results from simulator, emulator, and physical-device coverage that
+was unavailable.
+
 ## Deterministic repository gates — passed
 
-- Public-release contract, capability registry, mobile design/component/motion
-  tools, typed-token generation, app-audit, and clean-staging tests: 10
-  passing from the staged public tree.
-- Legacy repository contract, audit, routing, forbidden-runtime, and app-audit
-  tests: 14 passing before the v1 public release work.
-- Source-line audit: 36,075 classified records; no missing, duplicate, drifted,
-  malformed, or unclassified records.
+- `python3.13 scripts/verify_project.py`: passed.
+- Python contract suite: 40 tests passed.
+- Public release staging, v1 compatibility, v2 schema, whole-codebase scan,
+  route/screen/behavior/design extraction, planning, guarded one-screen
+  verification, deterministic routing, component generation, motion
+  generation, and forbidden-runtime gates: passed.
+- Source-line audit: 36,075 classified records with no missing, duplicate,
+  drifted, malformed, or unclassified records.
 - DTCG token validation, deterministic generation, and parity: passed for 141
-  semantic tokens.
-- Codex skill package validation: passed.
-- Clean-context forward routing suite: passed; see
-  `audit/forward-routing-tests.md`.
+  semantic tokens across seven resolver profiles.
+- All seven v2 skills and the retained v1 skill: Codex quick validation passed.
+- Codex plugin ingestion validator: passed for the v2 plugin manifest and all
+  seven included skills.
+- Clean public allowlist staging excludes upstream clones, local app findings,
+  dependencies, build caches, absolute-path artifacts, and private worktrees.
 
-## Fixture verification — passed
+## Native fixture verification — passed locally
 
-| Fixture | Verified locally |
+| Fixture | Proven local result |
 |---|---|
-| SwiftUI | Token parity passed. `xcodebuild build` succeeded for iPhone 17 Pro on the installed iOS 26.5 simulator runtime. |
-| Jetpack Compose | Token parity passed. Unit-test/build execution is tracked in the limitations below. |
-| React Native | Bun install with the frozen lockfile, TypeScript, ESLint, and four Jest component tests passed under Node 26.3.0. |
-| Flutter | `flutter analyze`, six widget/accessibility tests, and token parity passed using the installed global Flutter 3.41.3 without modifying it. |
+| Flutter | Global Flutter 3.41.3: `flutter analyze`, eight widget/unit/accessibility/golden tests, one compact visual golden, and `flutter build apk --debug` passed. The integration-test source is analyzed and its API 36 execution is configured in GitHub Actions. Generated component and motion Dart are analyzer inputs. |
+| React Native | React Native 0.86 / Node 26: TypeScript, ESLint, six Jest component tests, and one semantic rendering snapshot passed. Android New Architecture/Hermes `assembleDebug` passed. CocoaPods installation and the iOS workspace debug build passed. Generated component and motion TypeScript are compiler inputs. |
+| SwiftUI | Swift 6 / iOS 17 deployment: the app simulator build passed through XcodeBuildMCP with no project warnings. `xcodebuild build-for-testing` compiled and linked the app, generated component/motion sources, XCTest bundle, and native `ImageRenderer` snapshot test. |
+| Jetpack Compose | API 36 / JDK 17 / Gradle 9.4.1 / Compose BOM 2026.06.00: unit tests, lint, `assembleDebug`, and `assembleDebugAndroidTest` passed. The instrumented suite includes semantics, retry behavior, and a native `captureToImage` visual capture. Generated component and motion Kotlin are compiler inputs. |
 
-## Native environment limitations — not passed or not available
+## Native execution limitations — not claimed as passed
 
-| Fixture | Limitation | What is needed |
+| Fixture | Limitation | Release automation |
 |---|---|---|
-| SwiftUI | The requested iOS 18.5 and 26.2 runtimes are absent; only iOS 26.5 is installed. A direct `xcodebuild test` selected the installed iPhone 17 Pro but left it shut down and produced no valid result bundle or test output, so the repository-owned command was stopped. | Install the requested runtimes (or approve 26.5 as the coverage baseline), restore a healthy simulator launch service, and rerun `xcodebuild test` on iPhone SE, iPhone 17 Pro, and iPad Pro 11-inch. |
-| Jetpack Compose | API 36 exists at the local Android SDK path. With `ANDROID_HOME` set, two `./gradlew test lint assembleDebug` invocations started a Gradle 9.4.1 daemon but made no task progress or emitted task output; both repository-owned clients were stopped. The requested AGP 9.2 + built-in Kotlin 2.3.10 combination is not provided by AGP 9.2. | Restore Gradle dependency resolution, configure an emulator, and either accept AGP 9.2's bundled Kotlin or upgrade AGP for a supported 2.3.10 pairing. |
-| React Native | Android has no SDK configuration. iOS Pods are absent and the local Bundler cannot find the `cocoapods` gem. | Configure Android SDK, run `bundle install`, then `bundle exec pod install --project-directory=ios`, and execute both native debug builds/smoke tests. |
-| Flutter | Required project-local Flutter 3.44.0 SDK is absent. | Install it at `fixtures/flutter/.fvm/flutter_sdk` (or set `FLUTTER_SDK`) and run the listed iOS/Android builds and integration tests. |
+| Flutter | The required project-local Flutter 3.44 SDK is absent. The local iOS simulator build reached CoreSimulator but failed when `AssetCatalogSimulatorAgent` could not launch. The new integration test was not executed locally because no Android emulator is connected. | Core CI pins Flutter 3.44 for analyze, unit/golden tests, and Android build. Native Android CI runs the integration test on API 36. Native Apple CI builds the Flutter iOS simulator target. |
+| React Native | Native Android instrumentation and iOS UI execution were not run locally. | Android and Apple workflows build both native applications; JavaScript behavior and rendering snapshots remain required in core CI. |
+| SwiftUI | Multiple `xcodebuild test` / XcodeBuildMCP attempts timed out or lost the CoreSimulator service before any XCTest executed. This is not reported as a passing runtime test. Only iOS 26.5 is installed locally; the requested 18.5 and 26.2 runtimes are absent. | Native Apple CI runs `xcodebuild test` on its latest installed iPhone simulator. |
+| Jetpack Compose | No emulator is connected locally, so `connectedDebugAndroidTest` was not executed. | Native Android CI runs the compiled instrumentation and visual-capture suite on a Pixel 9 API 36 emulator. |
 
-No physical-device, VoiceOver, or TalkBack certification is claimed.
+No physical-device, manual VoiceOver, or manual TalkBack certification is
+claimed. A `v2.0.0` tag must not be created until the required GitHub Actions
+jobs pass for the exact public commit.

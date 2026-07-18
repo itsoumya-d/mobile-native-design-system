@@ -11,6 +11,27 @@ permissions:
   contents: read
 
 jobs:
+  flutter-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.0"
+          channel: stable
+      - uses: android-actions/setup-android@v3
+      - name: Run Flutter product-flow integration test on API 36
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          arch: x86_64
+          profile: pixel_9
+          disable-animations: true
+          working-directory: fixtures/flutter
+          script: |
+            flutter pub get
+            flutter test integration_test/product_flow_test.dart -d emulator-5554
+
   compose:
     runs-on: ubuntu-latest
     steps:
@@ -23,6 +44,25 @@ jobs:
       - name: Unit, lint, and debug build
         working-directory: fixtures/compose
         run: ./gradlew test lint assembleDebug
+
+  compose-instrumented:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - name: Run API 36 instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          arch: x86_64
+          profile: pixel_9
+          disable-animations: true
+          working-directory: fixtures/compose
+          script: ./gradlew connectedDebugAndroidTest
 
   react-native-android:
     runs-on: ubuntu-latest

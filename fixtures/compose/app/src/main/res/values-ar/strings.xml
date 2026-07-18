@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">معرض الرموز</string>
+    <string name="available_cash">النقد المتاح</string>
+    <string name="continue_securely">المتابعة بأمان</string>
+    <string name="save_check_in">حفظ المراجعة</string>
+</resources>

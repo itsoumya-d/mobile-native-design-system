@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/itsoumya-d/mobile-native-design-system/schemas/product-intelligence-v2.json",
+  "title": "Mobile-Native Product Intelligence Artifacts",
+  "oneOf": [
+    {"$ref": "#/$defs/project"},
+    {"$ref": "#/$defs/screenGraph"},
+    {"$ref": "#/$defs/behaviorContract"},
+    {"$ref": "#/$defs/designLanguage"},
+    {"$ref": "#/$defs/appPlan"},
+    {"$ref": "#/$defs/screenPlan"},
+    {"$ref": "#/$defs/changeReceipt"}
+  ],
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "^(?:/|[A-Za-z]:[\\\\/])"}
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["path", "line", "symbol", "confidence", "evidence_type"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "line": {"type": "integer", "minimum": 1},
+        "symbol": {"type": "string", "minLength": 1},
+        "kind": {"type": "string"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_type": {"enum": ["parser", "manifest", "pattern", "toolchain"]},
+        "excerpt_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "screen": {
+      "type": "object",
+      "required": ["id", "name", "path", "confidence", "evidence"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "path": {"$ref": "#/$defs/relativePath"},
+        "entry_point": {"type": "boolean"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "signals": {"type": "object"},
+        "evidence": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "screenGraph": {
+      "type": "object",
+      "required": ["format", "screens", "routes", "edges", "entry_points"],
+      "properties": {
+        "format": {"const": "mobile-native-screen-graph/1"},
+        "screens": {"type": "array", "items": {"$ref": "#/$defs/screen"}},
+        "routes": {"type": "array", "items": {"type": "object"}},
+        "tabs": {"type": "array"},
+        "sheets": {"type": "array"},
+        "dialogs": {"type": "array"},
+        "deep_links": {"type": "array"},
+        "edges": {"type": "array", "items": {"type": "object"}},
+        "entry_points": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "behaviorContract": {
+      "type": "object",
+      "required": [
+        "format",
+        "actions",
+        "state_transitions",
+        "data_boundaries",
+        "services",
+        "permissions",
+        "analytics",
+        "persistence",
+        "side_effects",
+        "invariants"
+      ],
+      "properties": {
+        "format": {"const": "mobile-native-behavior-contract/1"},
+        "actions": {"type": "array", "items": {"type": "object"}},
+        "state_transitions": {"type": "array"},
+        "data_boundaries": {"type": "array"},
+        "services": {"type": "array"},
+        "permissions": {"type": "array"},
+        "analytics": {"type": "array"},
+        "persistence": {"type": "array"},
+        "side_effects": {"type": "array"},
+        "invariants": {"type": "array", "items": {"type": "object"}}
+      },
+      "additionalProperties": false
+    },
+    "designLanguage": {
+      "type": "object",
+      "required": ["format", "framework"],
+      "properties": {
+        "format": {"const": "mobile-native-design-language/1"},
+        "framework": {"enum": ["flutter", "react-native", "swiftui", "compose"]},
+        "typography": {"type": "array"},
+        "colors": {"type": "array"},
+        "spacing": {"type": "array"},
+        "shapes": {"type": "array"},
+        "iconography": {"type": "array"},
+        "density": {"type": "object"},
+        "components": {"type": "array"},
+        "motion_grammar": {"type": "array"},
+        "inconsistencies": {"type": "array"},
+        "observed": {"type": "object"},
+        "design_read": {"type": "object"},
+        "evidence": {"type": "array"}
+      },
+      "additionalProperties": true
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "format",
+        "schema_version",
+        "project",
+        "framework",
+        "dependencies",
+        "architecture",
+        "screen_graph",
+        "behavior_contract",
+        "design_language",
+        "source_hashes",
+        "evidence"
+      ],
+      "properties": {
+        "format": {"const": "mobile-native-project/2"},
+        "schema_version": {"const": 2},
+        "project": {"type": "object"},
+        "framework": {"type": "object"},
+        "versions": {"type": "object"},
+        "dependencies": {"type": "object"},
+        "architecture": {"type": "object"},
+        "screen_graph": {"$ref": "#/$defs/screenGraph"},
+        "behavior_contract": {"$ref": "#/$defs/behaviorContract"},
+        "design_language": {"$ref": "#/$defs/designLanguage"},
+        "components": {"type": "array"},
+        "assets": {"type": "array"},
+        "localization": {"type": "array"},
+        "tests": {"type": "array"},
+        "build_commands": {"type": "array", "items": {"type": "string"}},
+        "source_files": {"type": "array", "items": {"$ref": "#/$defs/relativePath"}},
+        "source_hashes": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        },
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "uncertainties": {"type": "array"}
+      },
+      "additionalProperties": false
+    },
+    "recommendation": {
+      "type": "object",
+      "required": [
+        "id",
+        "screen_id",
+        "current_code_evidence",
+        "user_benefit",
+        "selected_capabilities",
+        "native_implementation",
+        "files_likely_affected",
+        "behavior_invariants",
+        "accessibility",
+        "motion",
+        "risk",
+        "confidence",
+        "verification_commands",
+        "acceptance_criteria"
+      ],
+      "properties": {
+        "id": {"type": "string"},
+        "screen_id": {"type": "string"},
+        "current_code_evidence": {"type": "array"},
+        "user_benefit": {"type": "array"},
+        "selected_capabilities": {"type": "array"},
+        "native_implementation": {"type": "string"},
+        "files_likely_affected": {"type": "array", "items": {"$ref": "#/$defs/relativePath"}},
+        "behavior_invariants": {"type": "array"},
+        "accessibility": {"type": "object"},
+        "motion": {"type": "object"},
+        "risk": {"type": "object"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "verification_commands": {"type": "array", "items": {"type": "string"}},
+        "acceptance_criteria": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "appPlan": {
+      "type": "object",
+      "required": [
+        "format",
+        "scope",
+        "framework",
+        "capability_coverage",
+        "recommendations",
+        "implementation_policy"
+      ],
+      "properties": {
+        "format": {"const": "mobile-native-app-plan/1"},
+        "scope": {"const": "app"},
+        "framework": {"enum": ["flutter", "react-native", "swiftui", "compose"]},
+        "capability_coverage": {"type": "array"},
+        "recommendations": {"type": "array", "items": {"$ref": "#/$defs/recommendation"}},
+        "implementation_policy": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "screenPlan": {
+      "type": "object",
+      "required": [
+        "format",
+        "screen",
+        "approval",
+        "behavior_invariants",
+        "file_scope",
+        "tests",
+        "acceptance_criteria",
+        "stop_conditions"
+      ],
+      "properties": {
+        "format": {"const": "mobile-native-screen-plan/1"},
+        "screen": {"type": "object"},
+        "approval": {"type": "object"},
+        "behavior_invariants": {"type": "array"},
+        "file_scope": {"type": "object"},
+        "tests": {"type": "array"},
+        "acceptance_criteria": {"type": "array"},
+        "stop_conditions": {"type": "array"}
+      },
+      "additionalProperties": true
+    },
+    "changeReceipt": {
+      "type": "object",
+      "required": [
+        "format",
+        "ok",
+        "screen_id",
+        "changed_files",
+        "added_source_files",
+        "invariants",
+        "violations",
+        "commands",
+        "unresolved_risks"
+      ],
+      "properties": {
+        "format": {"const": "mobile-native-change-receipt/1"},
+        "ok": {"type": "boolean"},
+        "screen_id": {"type": "string"},
+        "changed_files": {"type": "array", "items": {"$ref": "#/$defs/relativePath"}},
+        "added_source_files": {"type": "array", "items": {"$ref": "#/$defs/relativePath"}},
+        "invariants": {"type": "array"},
+        "violations": {"type": "array"},
+        "commands": {"type": "array"},
+        "unresolved_risks": {"type": "array"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

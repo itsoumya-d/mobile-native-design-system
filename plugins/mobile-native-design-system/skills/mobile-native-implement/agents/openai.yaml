@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Native Implement"
+  short_description: "Safely implement one approved screen"
+  default_prompt: "Use $mobile-native-implement to apply this approved screen plan while preserving behavior and producing a verified change receipt."

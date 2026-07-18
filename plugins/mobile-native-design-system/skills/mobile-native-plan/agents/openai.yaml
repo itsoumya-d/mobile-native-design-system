@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Native Plan"
+  short_description: "Plan app-wide and one-screen redesigns"
+  default_prompt: "Use $mobile-native-plan to turn this project model into an evidence-backed redesign roadmap and one-screen approval contract."

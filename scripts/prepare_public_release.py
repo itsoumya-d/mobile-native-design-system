@@ -26,17 +26,30 @@ FILES = (
 )
 AUDIT_FILES = ("sources.lock.json", "line-audit.jsonl", "validation-status.md", "forward-routing-tests.md")
 SCRIPT_FILES = ("prepare_public_release.py", "verify_release.py")
-TEST_FILES = ("__init__.py", "test_mobile_tooling.py", "test_public_release.py", "test_release_contract.py")
+TEST_FILES = (
+    "__init__.py",
+    "test_mobile_tooling.py",
+    "test_public_release.py",
+    "test_release_contract.py",
+    "test_v2_product_intelligence.py",
+)
 IGNORED_PARTS = {
+    ".bundle",
+    ".cxx",
     ".dart_tool",
     ".git",
     ".gradle",
     ".idea",
+    ".kotlin",
     ".worktrees",
     "DerivedData",
+    "Generated.xcconfig",
     "Pods",
+    "TokenGallery.xcworkspace",
     "__pycache__",
     "build",
+    "flutter_export_environment.sh",
+    "local.properties",
     "node_modules",
     "upstream",
 }
@@ -44,13 +57,19 @@ PUBLIC_GITIGNORE = """.DS_Store
 .dart_tool/
 .gradle/
 .idea/
+.kotlin/
+.cxx/
 DerivedData/
 Pods/
+*.xcworkspace/
 build/
 node_modules/
 coverage/
 *.xcresult
 *.iml
+local.properties
+Generated.xcconfig
+flutter_export_environment.sh
 __pycache__/
 *.pyc
 generated/

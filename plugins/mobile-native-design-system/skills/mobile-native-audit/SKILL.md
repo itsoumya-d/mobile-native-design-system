@@ -5,21 +5,28 @@ description: Use when auditing, reviewing, or safely improving a Flutter, React 
 
 # Mobile Native Audit
 
-Audit one screen or flow before changing it. Preserve existing features unless
-the user explicitly authorizes a behavior change.
+Audit from the whole-codebase product model, then report one screen or flow at
+a time. Auditing does not authorize edits.
 
 ## Workflow
 
-1. Run the deterministic inventory from the plugin root:
+1. If no current project model exists, run `$mobile-native-understand`.
+2. Run the evidence-backed audit from the plugin root:
 
 ```bash
 python shared/scripts/mobile_app_audit.py /absolute/path/to/app --profile full --out mobile-audit.json
 ```
 
-2. Pick one screen or user flow. Record its user job, current design language, dependencies, state model, platform conventions, and deterministic findings.
-3. Classify recommendations as proven static findings or heuristic review items. Do not present heuristic findings as test failures.
-4. Improve only the selected screen, preserve navigation and data behavior, then run that framework's tests and repeat with the next screen.
-5. Verify semantics, focus, touch targets, text scale, RTL, contrast, insets, keyboard, compact/tablet widths, loading/empty/error states, and reduced motion.
+3. Pick one screen or user flow. Cite its current user job, route, behavior,
+   design language, dependencies, state model, platform conventions, and
+   evidence.
+4. Classify findings as proven static findings or heuristic review items. Do
+   not present heuristic findings as test failures.
+5. Route proposed changes to `$mobile-native-plan`. Route an approved plan to
+   `$mobile-native-implement`; do not edit during audit.
+6. Verify semantics, focus, touch targets, text scale, RTL, contrast, insets,
+   keyboard, compact/tablet widths, loading/empty/error states, and reduced
+   motion.
 
 ## Framework focus
 

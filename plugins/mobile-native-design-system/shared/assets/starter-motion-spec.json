@@ -1,0 +1,56 @@
+{
+  "format": "mobile-motion-spec/2",
+  "name": "status-card-continuity",
+  "kind": "shared-transition",
+  "variants": {
+    "rest": {
+      "opacity": 1.0,
+      "scale": 1.0
+    },
+    "pressed": {
+      "opacity": 0.94,
+      "scale": 0.98
+    },
+    "detail": {
+      "opacity": 1.0,
+      "scale": 1.0
+    }
+  },
+  "timeline": [
+    {
+      "label": "press",
+      "from": "rest",
+      "to": "pressed",
+      "duration_ms": 90
+    },
+    {
+      "label": "open",
+      "from": "pressed",
+      "to": "detail",
+      "duration_ms": 240
+    }
+  ],
+  "gesture": {
+    "kind": "tap",
+    "threshold": 0,
+    "cancel_behavior": "return-to-rest"
+  },
+  "interruption": {
+    "policy": "retarget",
+    "resting_state": "rest"
+  },
+  "shared_transition": {
+    "id": "native-status-card",
+    "enabled": true
+  },
+  "haptic_intent": "selection",
+  "performance_budget": {
+    "max_simultaneous_animations": 8,
+    "prefer_compositor": true
+  },
+  "reduced_motion": {
+    "strategy": "opacity",
+    "preserve_information": true,
+    "disable_stagger": true
+  }
+}
