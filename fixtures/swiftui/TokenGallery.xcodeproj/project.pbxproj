@@ -11,10 +11,15 @@
 		36DC17DFAB564C5588C273ED /* TokenGalleryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EC92BF48EB293BB050638B /* TokenGalleryApp.swift */; };
 		3C6FD071A7A2EDC0ECD06B1F /* tokens.manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5DA855C1EE74B26F1D214921 /* tokens.manifest.json */; };
 		4D20C8F55EB593948E749678 /* TokenContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882F14F3CC686A8D2B9150ED /* TokenContractTests.swift */; };
+		68842FAA5055ED758B23AA06 /* ProductFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F89A6CE721763551B298C6C /* ProductFlowTests.swift */; };
+		77000FA5245B679EB1856914 /* ProductFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F9FD591D99D839B8F37509 /* ProductFlow.swift */; };
+		8012D4818DF23EB2BD842D83 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C7DB05AA7956B7858A2F12DE /* Localizable.xcstrings */; };
+		88785B629DB6C44B719CF559 /* NativeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F0E5D4CEEC75830992204 /* NativeComponent.swift */; };
 		B21A7B182EC253E66FAE3D19 /* GalleryComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AEC50832D3B4DF2666DD /* GalleryComponents.swift */; };
 		B97BA674FD3162FFB7B822B4 /* MobileTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88BE696318F90969B72AFFD /* MobileTokens.swift */; };
 		E247EF1AE0008D5B544B14DE /* TokenCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F53EFCDC2574AA2937C19DE /* TokenCatalog.swift */; };
 		FA2546957C31FC6E7A6112D5 /* TokenGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE40348FE837665F1819A58 /* TokenGalleryView.swift */; };
+		FFE298177B96205EC9B98940 /* MobileMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8E3E47D71BA3FA50955194 /* MobileMotion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,15 +33,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		011F0E5D4CEEC75830992204 /* NativeComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeComponent.swift; sourceTree = "<group>"; };
 		03FC5F2872175483DB31ED4C /* TokenGalleryTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TokenGalleryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E8E3E47D71BA3FA50955194 /* MobileMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileMotion.swift; sourceTree = "<group>"; };
 		3171AEC50832D3B4DF2666DD /* GalleryComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryComponents.swift; sourceTree = "<group>"; };
 		4259156A83DD061845CAC2D6 /* MobileTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileTheme.swift; sourceTree = "<group>"; };
 		5AA0FD36736BCC5C3DD28650 /* TokenGallery.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TokenGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DA855C1EE74B26F1D214921 /* tokens.manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tokens.manifest.json; sourceTree = "<group>"; };
 		7F53EFCDC2574AA2937C19DE /* TokenCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCatalog.swift; sourceTree = "<group>"; };
+		7F89A6CE721763551B298C6C /* ProductFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFlowTests.swift; sourceTree = "<group>"; };
 		882F14F3CC686A8D2B9150ED /* TokenContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenContractTests.swift; sourceTree = "<group>"; };
 		B4EC92BF48EB293BB050638B /* TokenGalleryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenGalleryApp.swift; sourceTree = "<group>"; };
 		B88BE696318F90969B72AFFD /* MobileTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileTokens.swift; sourceTree = "<group>"; };
+		C7DB05AA7956B7858A2F12DE /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		D0F9FD591D99D839B8F37509 /* ProductFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFlow.swift; sourceTree = "<group>"; };
 		EFE40348FE837665F1819A58 /* TokenGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenGalleryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,6 +55,8 @@
 			isa = PBXGroup;
 			children = (
 				3171AEC50832D3B4DF2666DD /* GalleryComponents.swift */,
+				C7DB05AA7956B7858A2F12DE /* Localizable.xcstrings */,
+				D0F9FD591D99D839B8F37509 /* ProductFlow.swift */,
 				7F53EFCDC2574AA2937C19DE /* TokenCatalog.swift */,
 				B4EC92BF48EB293BB050638B /* TokenGalleryApp.swift */,
 				EFE40348FE837665F1819A58 /* TokenGalleryView.swift */,
@@ -75,8 +87,10 @@
 		61C3963ED2C95C7E26D218E2 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				0E8E3E47D71BA3FA50955194 /* MobileMotion.swift */,
 				4259156A83DD061845CAC2D6 /* MobileTheme.swift */,
 				B88BE696318F90969B72AFFD /* MobileTokens.swift */,
+				011F0E5D4CEEC75830992204 /* NativeComponent.swift */,
 				5DA855C1EE74B26F1D214921 /* tokens.manifest.json */,
 			);
 			path = Generated;
@@ -85,6 +99,7 @@
 		7005F27929BCC054467C63EE /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7F89A6CE721763551B298C6C /* ProductFlowTests.swift */,
 				882F14F3CC686A8D2B9150ED /* TokenContractTests.swift */,
 			);
 			name = Tests;
@@ -152,6 +167,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				ar,
 				en,
 			);
 			mainGroup = 3C87A7472A527071282EB03B;
@@ -172,6 +188,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8012D4818DF23EB2BD842D83 /* Localizable.xcstrings in Resources */,
 				3C6FD071A7A2EDC0ECD06B1F /* tokens.manifest.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,8 +201,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B21A7B182EC253E66FAE3D19 /* GalleryComponents.swift in Sources */,
+				FFE298177B96205EC9B98940 /* MobileMotion.swift in Sources */,
 				0EF91801EB665CBD1D2404D1 /* MobileTheme.swift in Sources */,
 				B97BA674FD3162FFB7B822B4 /* MobileTokens.swift in Sources */,
+				88785B629DB6C44B719CF559 /* NativeComponent.swift in Sources */,
+				77000FA5245B679EB1856914 /* ProductFlow.swift in Sources */,
 				E247EF1AE0008D5B544B14DE /* TokenCatalog.swift in Sources */,
 				36DC17DFAB564C5588C273ED /* TokenGalleryApp.swift in Sources */,
 				FA2546957C31FC6E7A6112D5 /* TokenGalleryView.swift in Sources */,
@@ -196,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68842FAA5055ED758B23AA06 /* ProductFlowTests.swift in Sources */,
 				4D20C8F55EB593948E749678 /* TokenContractTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

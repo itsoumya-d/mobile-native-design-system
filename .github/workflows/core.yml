@@ -33,12 +33,13 @@ jobs:
         with:
           flutter-version: "3.44.0"
           channel: stable
-      - name: Analyze and test Token Gallery
+      - name: Analyze, test, and build Flutter fixture
         working-directory: fixtures/flutter
         run: |
           flutter pub get
           flutter analyze
-          flutter test
+          flutter test --exclude-tags golden
+          flutter build apk --debug
 
   react-native:
     runs-on: ubuntu-latest
@@ -54,4 +55,5 @@ jobs:
         run: |
           npm install --ignore-scripts
           npx tsc --noEmit
+          npm run lint -- --max-warnings=0
           npm test -- --runInBand

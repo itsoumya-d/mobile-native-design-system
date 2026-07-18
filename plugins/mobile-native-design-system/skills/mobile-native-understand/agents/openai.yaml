@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mobile Native Understand"
+  short_description: "Model a complete native mobile codebase"
+  default_prompt: "Use $mobile-native-understand to scan this mobile app and reconstruct its screens, behavior, and design language before proposing changes."

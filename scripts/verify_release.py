@@ -13,6 +13,7 @@ TESTS = (
     "tests.test_release_contract",
     "tests.test_mobile_tooling",
     "tests.test_public_release",
+    "tests.test_v2_product_intelligence",
 )
 
 

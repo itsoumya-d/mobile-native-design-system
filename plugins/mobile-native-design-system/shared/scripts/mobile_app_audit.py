@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import re
 import sys
@@ -159,6 +160,59 @@ def _finding(identifier: str, level: str, path: Path, message: str) -> dict[str,
     return {"id": identifier, "evidence_level": level, "path": path.as_posix(), "message": message}
 
 
+def _load_project_tool():
+    path = Path(__file__).with_name("mobile_project.py")
+    spec = importlib.util.spec_from_file_location("mobile_audit_project", path)
+    if not spec or not spec.loader:
+        raise AuditError(f"Unable to load project intelligence scanner: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _enrich_findings(
+    findings: list[dict[str, str]], project_model: dict[str, Any]
+) -> list[dict[str, Any]]:
+    enriched: list[dict[str, Any]] = []
+    for finding in findings:
+        evidence = [
+            {
+                "path": item["path"],
+                "line": item["line"],
+                "symbol": item["symbol"],
+                "kind": item["kind"],
+                "confidence": item["confidence"],
+            }
+            for item in project_model.get("evidence", [])
+            if item.get("path") == finding["path"]
+        ]
+        if not evidence:
+            evidence = [
+                {
+                    "path": finding["path"],
+                    "line": 1,
+                    "symbol": finding["id"],
+                    "kind": "file-review",
+                    "confidence": "low" if finding["evidence_level"] == "heuristic" else "medium",
+                }
+            ]
+        enriched.append(
+            {
+                **finding,
+                "current_code_evidence": evidence,
+                "user_benefit": (
+                    "Improve screen-reader comprehension and action clarity."
+                    if finding["id"].startswith("accessibility.")
+                    else "Prevent clipping and hierarchy loss across text scales and device sizes."
+                    if finding["id"].startswith("adaptive.")
+                    else "Protect reliable native interaction and rendering behavior."
+                ),
+                "verification": project_model.get("build_commands", []),
+            }
+        )
+    return enriched
+
+
 def _findings(root: Path, files: list[Path], framework: str, profile: str) -> list[dict[str, str]]:
     if profile not in {"quick", "full"}:
         raise AuditError("profile must be quick or full")
@@ -183,15 +237,24 @@ def audit_project(project_root: Path | str, profile: str = "quick") -> dict[str,
     if not root.is_dir():
         raise AuditError(f"Project root does not exist: {root}")
     framework, dependencies, files = _detect(root)
+    try:
+        project_model = _load_project_tool().scan_project(root, profile=profile)
+    except ValueError as error:
+        raise AuditError(str(error)) from error
+    findings = _enrich_findings(
+        _findings(root, files, framework, profile),
+        project_model,
+    )
     return {
         "format": "mobile-native-app-audit/2",
         "project": str(root),
         "framework": framework,
         "profile": profile,
-        "screens": _screen_records(root, files, framework),
+        "screens": project_model["screen_graph"]["screens"],
         "source_files": [path.relative_to(root).as_posix() for path in files],
         "capabilities": _capabilities(framework, dependencies),
-        "findings": _findings(root, files, framework, profile),
+        "findings": findings,
+        "project_model": project_model,
     }
 
 

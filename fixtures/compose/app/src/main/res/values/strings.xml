@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Token Gallery</string>
+    <string name="available_cash">Available cash</string>
+    <string name="continue_securely">Continue securely</string>
+    <string name="save_check_in">Save check-in</string>
+</resources>

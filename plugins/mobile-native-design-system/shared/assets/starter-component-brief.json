@@ -1,0 +1,25 @@
+{
+  "format": "mobile-screen-brief/1",
+  "name": "native-status-card",
+  "subject": "calm financial wellbeing",
+  "user_job": "Understand one status and take the next safe action.",
+  "primary_action": "Try again",
+  "hierarchy": [
+    "status",
+    "supporting explanation",
+    "primary action"
+  ],
+  "signature_interaction": "The card preserves its identity while status changes.",
+  "dials": {
+    "density": "comfortable",
+    "contrast": "high",
+    "shape": "soft",
+    "typography": "system",
+    "motion": "restrained"
+  },
+  "components": [
+    "card",
+    "button",
+    "async-state"
+  ]
+}

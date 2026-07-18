@@ -1,0 +1,26 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Available cash" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "النقد المتاح"
+          }
+        }
+      }
+    },
+    "Continue securely" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المتابعة بأمان"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

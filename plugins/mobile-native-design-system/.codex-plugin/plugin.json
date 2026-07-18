@@ -1,7 +1,7 @@
 {
   "name": "mobile-native-design-system",
-  "version": "1.0.0",
-  "description": "Flutter-first native mobile design, component, motion, audit, and typed-token tooling for Codex.",
+  "version": "2.0.0",
+  "description": "Local-first product intelligence, planning, guarded implementation, native design, motion, audit, and typed-token tooling for Flutter, React Native, SwiftUI, and Compose.",
   "author": { "name": "Soumya Debnath" },
   "license": "MIT",
   "keywords": [
@@ -17,17 +17,20 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Mobile-Native Design System",
-    "shortDescription": "Flutter-first mobile UI, motion, tokens, and audits.",
-    "longDescription": "A mobile-only plugin that routes design direction, component plans, native motion, accessibility, tokens, and screen audits to Flutter first and to React Native, SwiftUI, and Compose adapters when needed.",
+    "shortDescription": "Understand, plan, and improve native mobile apps safely.",
+    "longDescription": "A local-first, mobile-only plugin that reconstructs an app's screens, routes, behavior, state, data boundaries, design language, motion, assets, and tests; creates evidence-backed product and screen plans; and guards one approved native implementation at a time across Flutter, React Native, SwiftUI, and Compose.",
     "developerName": "Soumya Debnath",
     "category": "Developer Tools",
     "capabilities": [
+      "Whole-codebase mobile product intelligence",
+      "Evidence-backed app and screen planning",
+      "Guarded one-screen native implementation",
       "Flutter-first native component planning",
-      "Native motion recipes",
+      "Native motion v2 recipes",
       "Screen-by-screen UX and accessibility audits",
       "Typed cross-platform design tokens"
     ],
-    "defaultPrompt": "Use $mobile-native-design-system to improve this Flutter screen with native components, motion, accessibility, and typed tokens; do not add a web runtime.",
+    "defaultPrompt": "Use $mobile-native-design-system to understand this mobile codebase, plan evidence-backed improvements, and safely implement one approved native screen without changing behavior.",
     "brandColor": "#02569B",
     "composerIcon": "./assets/icon.png",
     "logo": "./assets/logo.png"

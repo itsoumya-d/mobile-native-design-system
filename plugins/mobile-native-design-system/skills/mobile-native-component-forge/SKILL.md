@@ -10,17 +10,27 @@ adaptive, and native to its platform.
 
 ## Workflow
 
-1. Determine the framework from the request and project manifest. Default to Flutter only if no platform is supplied.
-2. Write a brief with subject, user job, primary action, hierarchy, and a signature interaction. Choose density, contrast, shape, type, and motion dials.
-3. Validate and emit the component plan from the plugin root:
+1. Require a detected framework. If the platform is ambiguous, use
+   `$mobile-native-understand`; do not guess.
+2. Write a brief with subject, user job, primary action, hierarchy, and a
+   signature interaction. Choose density, contrast, shape, type, and motion
+   dials from the observed design language.
+3. Run the local context → intent → constraints → alternatives → selection →
+   integration → refinement workflow. With a project model, bind the plan to
+   one proven screen:
 
 ```bash
 python shared/scripts/mobile_design.py validate brief.json
-python shared/scripts/mobile_component.py generate brief.json --platform flutter --out component-plan.json
+python shared/scripts/mobile_component.py generate brief.json --platform flutter --project-context project-model.json --screen-id ScreenID --out component-plan.json --code-out native_component.dart
 ```
 
-4. Start with the native primitive named in the plan. Include default, pressed, focused, selected, disabled, loading, empty, error, retry, and populated states when applicable.
+4. Treat `--code-out` as a compileable native starting point, not permission to
+   integrate it. Start with the native primitive named in the plan. Include
+   default, pressed, focused, selected, disabled, loading, empty, error, retry,
+   and populated states when applicable.
 5. Confirm semantics, focus order, minimum touch target, text scaling, RTL, safe area, keyboard, compact/tablet behavior, haptic intent, and reduced motion before custom polish.
+6. Keep the component plan in approval-required state. Use
+   `$mobile-native-implement` only after its screen scope is approved.
 
 ## Native choices
 

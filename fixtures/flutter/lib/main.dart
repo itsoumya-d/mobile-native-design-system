@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'generated/mobile_theme_extension.dart';
 import 'generated/mobile_tokens.dart';
+import 'product_flow.dart';
 
 void main() => runApp(const TokenGalleryApp());
 
@@ -156,6 +157,20 @@ class _GalleryScreenState extends State<GalleryScreen> {
         ),
         title: const Text('Token Gallery'),
         actions: [
+          Semantics(
+            label: 'Open production flow',
+            button: true,
+            child: IconButton(
+              tooltip: 'Open production flow',
+              onPressed: () => Navigator.push<void>(
+                context,
+                MaterialPageRoute(builder: (context) => const ProductFlowApp()),
+              ),
+              icon: const ExcludeSemantics(
+                child: Icon(Icons.account_balance_wallet_outlined),
+              ),
+            ),
+          ),
           Semantics(
             label: 'Open token details',
             button: true,

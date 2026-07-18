@@ -28,7 +28,7 @@ class PublicReleaseTests(unittest.TestCase):
             )
             marketplace = json.loads((destination / ".agents" / "plugins" / "marketplace.json").read_text(encoding="utf-8"))
 
-            self.assertEqual("1.0.0", manifest["version"])
+            self.assertEqual("2.0.0", manifest["version"])
             self.assertEqual("mobile-native-design-system", marketplace["name"])
             self.assertTrue((destination / "README.md").is_file())
             self.assertTrue((destination / "SECURITY.md").is_file())
@@ -36,11 +36,47 @@ class PublicReleaseTests(unittest.TestCase):
             self.assertTrue((destination / "audit" / "line-audit.jsonl").is_file())
             self.assertTrue((destination / "audit" / "forward-routing-tests.md").is_file())
             self.assertEqual(
-                {"__init__.py", "test_mobile_tooling.py", "test_public_release.py", "test_release_contract.py"},
+                {
+                    "__init__.py",
+                    "test_mobile_tooling.py",
+                    "test_public_release.py",
+                    "test_release_contract.py",
+                    "test_v2_product_intelligence.py",
+                },
                 {path.name for path in (destination / "tests").glob("*.py")},
             )
             self.assertFalse((destination / "upstream").exists())
-            self.assertFalse(any(path.name in {"node_modules", ".worktrees", "__pycache__"} for path in destination.rglob("*")))
+            forbidden_names = {
+                ".bundle",
+                ".cxx",
+                ".kotlin",
+                ".worktrees",
+                "Generated.xcconfig",
+                "Pods",
+                "TokenGallery.xcworkspace",
+                "__pycache__",
+                "flutter_export_environment.sh",
+                "local.properties",
+                "node_modules",
+            }
+            self.assertFalse(
+                any(path.name in forbidden_names for path in destination.rglob("*"))
+            )
+            local_path_markers = (
+                "/" + "Users/",
+                "/home/" + "runner/",
+                "/private/var/" + "folders/",
+                "C:" + "\\Users\\",
+            )
+            for path in destination.rglob("*"):
+                if not path.is_file():
+                    continue
+                try:
+                    text = path.read_text(encoding="utf-8")
+                except UnicodeDecodeError:
+                    continue
+                for marker in local_path_markers:
+                    self.assertNotIn(marker, text, path)
 
 
 if __name__ == "__main__":

@@ -11,6 +11,22 @@ permissions:
   contents: read
 
 jobs:
+  flutter-ios:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.0"
+          channel: stable
+      - name: Analyze, test, and build Flutter iOS fixture
+        working-directory: fixtures/flutter
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
+          flutter build ios --simulator --no-codesign
+
   swiftui:
     runs-on: macos-15
     steps:
