@@ -49,6 +49,9 @@ IGNORED_PARTS = {
     "__pycache__",
     "build",
     "flutter_export_environment.sh",
+    ".flutter-plugins-dependencies",
+    ".flutter-plugins",
+    "ephemeral",
     "local.properties",
     "node_modules",
     "upstream",
@@ -70,6 +73,9 @@ coverage/
 local.properties
 Generated.xcconfig
 flutter_export_environment.sh
+.flutter-plugins-dependencies
+.flutter-plugins
+**/Flutter/ephemeral/
 __pycache__/
 *.pyc
 generated/

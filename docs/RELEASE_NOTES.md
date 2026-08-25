@@ -1,3 +1,12 @@
+# v2.0.1 — Release-hardening patch
+
+- macOS system-Python compatibility: the token compiler no longer uses the
+  `write_text(newline=...)` parameter (Python 3.10+) and a new contract pair
+  compiles and generates under `/usr/bin/python3`.
+- Public-release staging now excludes local Flutter toolchain residue
+  (`.flutter-plugins-dependencies`, `.flutter-plugins`, `**/Flutter/ephemeral/`)
+  so generated files carrying absolute machine paths can never ship.
+
 # v2.0.0 — Understand first, improve one screen at a time
 
 v2 turns the plugin into a local-first mobile product-intelligence and guarded

@@ -15,6 +15,9 @@ coverage/
 local.properties
 Generated.xcconfig
 flutter_export_environment.sh
+.flutter-plugins-dependencies
+.flutter-plugins
+**/Flutter/ephemeral/
 __pycache__/
 *.pyc
 generated/

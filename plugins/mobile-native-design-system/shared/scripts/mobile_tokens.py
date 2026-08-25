@@ -616,7 +616,7 @@ def generate_all(
     for target in selected:
         for filename, content in renderers[target]:
             path = output / filename
-            path.write_text(content, encoding="utf-8", newline="\n")
+            path.write_text(content, encoding="utf-8")
             written.append(path)
             artifact_hashes[filename] = hashlib.sha256(content.encode("utf-8")).hexdigest()
 
