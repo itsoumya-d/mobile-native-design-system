@@ -13,6 +13,7 @@ permissions:
 jobs:
   flutter-integration:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -35,7 +36,11 @@ jobs:
           working-directory: fixtures/flutter
           script: |
             flutter pub get
-            flutter test integration_test/product_flow_test.dart -d emulator-5554
+            # `flutter test integration_test` occasionally hangs after the APK installs
+            # (the app never reports back over the VM service), burning the 6h job limit.
+            # The emulator-runner runs each script line in its own shell, so the retry
+            # loop must be a single line. Bound each attempt and retry once.
+            ok=0; for attempt in 1 2; do if timeout -k 30 900 flutter test integration_test/product_flow_test.dart -d emulator-5554; then ok=1; break; fi; echo "::warning::flutter integration attempt $attempt failed or timed out"; done; test "$ok" -eq 1
 
   compose:
     runs-on: ubuntu-latest
@@ -52,6 +57,7 @@ jobs:
 
   compose-instrumented:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
