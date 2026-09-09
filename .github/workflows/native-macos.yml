@@ -36,10 +36,26 @@ jobs:
       - name: Build and test SwiftUI Token Gallery
         working-directory: fixtures/swiftui
         run: |
-          xcodebuild test \
-            -project TokenGallery.xcodeproj \
-            -scheme TokenGallery \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=latest'
+          for attempt in 1 2 3; do
+            DEVICE_ID=$(xcrun simctl list devices available --json \
+              | python3 -c 'import json,sys; d=json.load(sys.stdin)["devices"]; ids=[x["udid"] for rt in sorted(d, reverse=True) for x in d[rt] if "iPhone" in x["name"]]; print(ids[0] if ids else "")')
+            if [ -z "$DEVICE_ID" ]; then
+              echo "Attempt $attempt: no available iPhone simulator yet; waiting for CoreSimulator..."
+              sleep 15
+              continue
+            fi
+            echo "Attempt $attempt: testing on simulator $DEVICE_ID"
+            if xcodebuild test \
+              -project TokenGallery.xcodeproj \
+              -scheme TokenGallery \
+              -destination "platform=iOS Simulator,id=$DEVICE_ID"; then
+              exit 0
+            fi
+            echo "Attempt $attempt failed; retrying..."
+            sleep 15
+          done
+          echo "SwiftUI tests failed after retries" >&2
+          exit 1
 
   react-native-ios:
     runs-on: macos-15
