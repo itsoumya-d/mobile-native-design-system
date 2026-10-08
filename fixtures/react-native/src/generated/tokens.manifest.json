@@ -1,9 +1,12 @@
 {
   "artifacts": {
-    "theme.ts": "f27bd6826e5766751f19ec89440b043666d345dcbbc94a90d0323f7c2e02de79",
-    "tokens.ts": "32554e66f670a15bd95f4b860e217319281f856279bde83cfdd0a30316aea89e"
+    "theme.ts": "f3f39980bb753b601b5cb713e9460eb32186ed66b6ef7d8c7ef2884f445fb8a8",
+    "tokens.ts": "aca04541ec3ad27c6cd0165a11fd25e28351dab8a644ef4ca6915a2ece97af2f"
   },
   "format": "mobile-native-token-manifest/1",
+  "platforms": [
+    "react-native"
+  ],
   "profiles": [
     "android",
     "base",

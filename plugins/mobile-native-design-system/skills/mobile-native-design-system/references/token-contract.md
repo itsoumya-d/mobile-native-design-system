@@ -66,14 +66,35 @@ Typography uses semantic system roles. Layout defines compact, medium, and expan
 ```bash
 python shared/scripts/mobile_tokens.py validate path/to/tokens.json
 python shared/scripts/mobile_tokens.py generate path/to/tokens.json --platform all --out path/to/generated
-python shared/scripts/mobile_tokens.py parity path/to/tokens.json path/to/generated
+python shared/scripts/mobile_tokens.py parity path/to/tokens.json path/to/generated --platform all
 ```
 
 `validate` checks schema identity, categories, resolver inheritance, aliases, platform floors, and reduced motion.
 
-`generate` writes deterministic source plus `tokens.manifest.json`. The manifest contains the normalized source hash, all semantic paths, resolver names, and artifact hashes.
+`generate` writes deterministic UTF-8 source plus `tokens.manifest.json`. The
+manifest contains the normalized source hash, all semantic paths, resolver
+names, selected `platforms`, and artifact hashes.
 
-`parity` fails on source drift, missing semantic paths, missing files, or changed generated artifacts.
+`parity` validates the input and compares artifacts against a fresh in-memory
+render from the current generator. It does not rewrite any files. It fails on
+source drift, missing semantic paths, missing or incomplete target files, stale
+generator output, malformed manifests, or changed artifacts, even if their
+manifest hashes were updated. Generated files must remain byte-for-byte output;
+put custom adapters outside them and regenerate after generator changes.
+
+Pass `--platform all` (or one of `flutter`, `react-native`, `swift`, `kotlin`) in
+CI to declare the exact expected target scope independently of the manifest.
+Without it, parity uses the manifest's `platforms`. Older format/1 manifests
+without that field remain readable: parity infers targets from their artifact
+names and requires each target's complete pair. An old manifest cannot reveal a
+whole target removed from its own list, so an explicit `--platform` is especially
+important for legacy output. Unrelated files in the output directory are ignored.
+
+From the repository root, `python fixtures/token-parity/check.py` demonstrates
+byte-stable generation and deliberate failure cases without mobile SDKs. The
+public release gate also verifies the four checked-in native fixture adapters
+against the current generator. These checks do not establish app runtime or
+physical-device coverage.
 
 ## Generated adapters
 

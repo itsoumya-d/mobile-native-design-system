@@ -19,3 +19,25 @@ class MobileThemeExtension extends ThemeExtension<MobileThemeExtension> {
   MobileThemeExtension lerp(covariant MobileThemeExtension? other, double t) =>
       t < 0.5 || other == null ? this : other;
 }
+
+@immutable
+class MobileTokenColors extends ThemeExtension<MobileTokenColors> {
+  const MobileTokenColors({required this.profile});
+  final String profile;
+
+  Color color(MobileColorToken token) => MobileTokens.color(token, profile: profile);
+
+  @override
+  MobileTokenColors copyWith({String? profile}) => MobileTokenColors(profile: profile ?? this.profile);
+
+  @override
+  MobileTokenColors lerp(covariant MobileTokenColors? other, double t) =>
+      t < 0.5 || other == null ? this : other;
+}
+
+extension MobileTokenBuildContext on BuildContext {
+  MobileThemeExtension get mobileTheme =>
+      Theme.of(this).extension<MobileThemeExtension>() ?? const MobileThemeExtension();
+  MobileTokenColors get mobileColors =>
+      Theme.of(this).extension<MobileTokenColors>() ?? const MobileTokenColors(profile: 'base');
+}

@@ -117,6 +117,20 @@ Run the deterministic public gate:
 python scripts/verify_release.py
 ```
 
+To try token generation and its failure guards without a mobile SDK:
+
+```bash
+python fixtures/token-parity/check.py
+```
+
+This temporary-directory fixture proves repeated generation is byte-stable and
+rejects an edited token even when its artifact hash is updated, an empty
+artifact manifest, and an invalid Android touch target. The public gate also
+checks that all four committed native adapters match the current generator.
+See [the token parity fixture](fixtures/token-parity/README.md) and the
+[token contract](plugins/mobile-native-design-system/skills/mobile-native-design-system/references/token-contract.md)
+for explicit target-scope checks and legacy-manifest behavior.
+
 The repository also includes native fixture workflows for Flutter, React Native,
 SwiftUI, and Compose. Native SDK and simulator/emulator coverage is recorded in
 [`audit/validation-status.md`](audit/validation-status.md); unavailable local

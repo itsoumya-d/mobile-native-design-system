@@ -1,9 +1,12 @@
 {
   "artifacts": {
-    "mobile_theme_extension.dart": "e7dc0a8c40fba3b4dd8e6527e473407dd93b63e8ff5be355f81c768fad6d70fd",
-    "mobile_tokens.dart": "f9dd8d560cef8939ebb944977590bc9098f6013d4ab19d5b273f09e80fd0b50b"
+    "mobile_theme_extension.dart": "615c0cedea5d2191e20b456b8541f1df3030d5db92c23ab877b569e7bcd3b05b",
+    "mobile_tokens.dart": "7bed3c1f6cc01ba3251b2640e9935c3de997cd8a525b0452040fc2885eb436de"
   },
   "format": "mobile-native-token-manifest/1",
+  "platforms": [
+    "flutter"
+  ],
   "profiles": [
     "android",
     "base",

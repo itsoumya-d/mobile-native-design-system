@@ -6,6 +6,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 data class MobileTheme(
     val profile: String = "base",
     val values: Map<String, String> = MobileTokens.values(profile),
+    val dimensions: MobileDimensions = MobileTokens.dimensions(profile),
+    val typography: MobileTypography = MobileTokens.typography(profile),
 )
 
 val LocalMobileTheme = staticCompositionLocalOf { MobileTheme() }
