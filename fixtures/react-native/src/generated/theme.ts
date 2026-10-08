@@ -6,6 +6,6 @@ export interface MobileTheme {
   values: Readonly<Record<MobileTokenPath, unknown>>;
 }
 
-export function createMobileTheme(profile: MobileTokenProfile = "base"): MobileTheme {
+export const createMobileTheme = (profile: MobileTokenProfile = "base"): MobileTheme => {
   return { profile, values: mobileTokens.profiles[profile] };
-}
+};

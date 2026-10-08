@@ -440,7 +440,8 @@ object MobileTokens {{
         val value = values(profile)[token.path] ?: "#00000000"
         val raw = value.removePrefix("#")
         val normalized = if (raw.length == 6) "FF$raw" else raw
-        return Color(normalized.toULongOrNull(16) ?: 0u)
+        // The Long overload accepts ARGB; ULong is Compose's packed color format.
+        return Color(normalized.toLongOrNull(16) ?: 0L)
     }}
 
     fun dimensions(profile: String = "base"): MobileDimensions = MobileDimensions(values(profile))
@@ -578,6 +579,38 @@ extension MobileTokenBuildContext on BuildContext {
 """
 
 
+def _render_platforms(
+    source_hash: str, profiles: dict[str, dict[str, Any]],
+) -> dict[str, dict[str, str]]:
+    """Render the canonical bytes' source for generation and read-only parity."""
+    return {
+        "swift": {
+            "MobileTokens.swift": _swift_tokens(source_hash, profiles),
+            "MobileTheme.swift": _swift_theme(),
+        },
+        "kotlin": {
+            "MobileTokens.kt": _kotlin_tokens(source_hash, profiles),
+            "MobileTheme.kt": _kotlin_theme(),
+        },
+        "react-native": {
+            "tokens.ts": _typescript_tokens(source_hash, profiles),
+            "theme.ts": _typescript_theme(),
+        },
+        "flutter": {
+            "mobile_tokens.dart": _dart_tokens(source_hash, profiles),
+            "mobile_theme_extension.dart": _dart_theme(),
+        },
+    }
+
+
+def _selected_platforms(platform: str) -> list[str]:
+    if platform == "all":
+        return list(PLATFORM_FILES)
+    if platform not in PLATFORM_FILES:
+        raise TokenError(f"Unsupported platform: {platform}")
+    return [platform]
+
+
 def generate_all(
     document: dict[str, Any],
     output: Path,
@@ -585,66 +618,65 @@ def generate_all(
 ) -> list[Path]:
     """Generate deterministic platform files and a parity manifest."""
     validation = validate_document(document)
-    output.mkdir(parents=True, exist_ok=True)
+    selected = _selected_platforms(platform)
     profiles = _resolved_profiles(document)
     source_hash = validation["source_hash"]
-
-    renderers = {
-        "swift": (
-            ("MobileTokens.swift", _swift_tokens(source_hash, profiles)),
-            ("MobileTheme.swift", _swift_theme()),
-        ),
-        "kotlin": (
-            ("MobileTokens.kt", _kotlin_tokens(source_hash, profiles)),
-            ("MobileTheme.kt", _kotlin_theme()),
-        ),
-        "react-native": (
-            ("tokens.ts", _typescript_tokens(source_hash, profiles)),
-            ("theme.ts", _typescript_theme()),
-        ),
-        "flutter": (
-            ("mobile_tokens.dart", _dart_tokens(source_hash, profiles)),
-            ("mobile_theme_extension.dart", _dart_theme()),
-        ),
-    }
-    selected = list(renderers) if platform == "all" else [platform]
-    if any(item not in renderers for item in selected):
-        raise TokenError(f"Unsupported platform: {platform}")
+    renderers = _render_platforms(source_hash, profiles)
+    output.mkdir(parents=True, exist_ok=True)
 
     written: list[Path] = []
     artifact_hashes: dict[str, str] = {}
     for target in selected:
-        for filename, content in renderers[target]:
+        for filename, content in renderers[target].items():
             path = output / filename
-            path.write_text(content, encoding="utf-8")
+            # Byte writes prevent host newline translation from changing hashes.
+            encoded = content.encode("utf-8")
+            path.write_bytes(encoded)
             written.append(path)
-            artifact_hashes[filename] = hashlib.sha256(content.encode("utf-8")).hexdigest()
+            artifact_hashes[filename] = hashlib.sha256(encoded).hexdigest()
 
     manifest = {
         "format": "mobile-native-token-manifest/1",
         "source_hash": source_hash,
         "token_paths": sorted(resolve_document(document, ["base"])),
         "profiles": sorted(profiles),
+        "platforms": sorted(selected),
         "artifacts": artifact_hashes,
     }
     manifest_path = output / "tokens.manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_path.write_bytes((json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode("utf-8"))
     written.append(manifest_path)
     return written
 
 
-def check_parity(document: dict[str, Any], output: Path) -> dict[str, Any]:
-    """Verify generated artifacts still match the resolved source document."""
+def check_parity(
+    document: dict[str, Any], output: Path, platform: str | None = None,
+) -> dict[str, Any]:
+    """Compare complete target artifacts with the current generator, without writes.
+
+    Old format/1 manifests lack a target declaration. Infer complete target pairs
+    for those manifests unless the caller supplies an independent expected scope.
+    """
     errors: list[str] = []
+    try:
+        validation = validate_document(document)
+        requested = _selected_platforms(platform) if platform is not None else None
+    except TokenError as error:
+        return {"ok": False, "errors": [str(error)]}
+
     manifest_path = output / "tokens.manifest.json"
     if not manifest_path.exists():
         return {"ok": False, "errors": ["tokens.manifest.json is missing"]}
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
         return {"ok": False, "errors": [f"Invalid manifest: {error}"]}
+    if not isinstance(manifest, dict):
+        return {"ok": False, "errors": ["Invalid manifest: expected an object"]}
+    if manifest.get("format") != "mobile-native-token-manifest/1":
+        errors.append("unsupported manifest format")
 
-    expected_hash = _source_hash(document)
+    expected_hash = validation["source_hash"]
     if manifest.get("source_hash") != expected_hash:
         errors.append("source hash mismatch")
     expected_paths = sorted(resolve_document(document, ["base"]))
@@ -654,20 +686,48 @@ def check_parity(document: dict[str, Any], output: Path) -> dict[str, Any]:
     if manifest.get("profiles") != expected_profiles:
         errors.append("resolver profile mismatch")
 
-    for filename, expected_artifact_hash in manifest.get("artifacts", {}).items():
-        path = output / filename
-        if not path.exists():
-            errors.append(f"missing artifact: {filename}")
-            continue
-        actual_hash = hashlib.sha256(path.read_bytes()).hexdigest()
-        if actual_hash != expected_artifact_hash:
-            errors.append(f"artifact hash mismatch: {filename}")
-        text = path.read_text(encoding="utf-8")
-        if filename not in {"MobileTheme.swift", "MobileTheme.kt", "theme.ts", "mobile_theme_extension.dart"}:
-            for token_path in expected_paths:
-                if token_path not in text:
-                    errors.append(f"{filename} omits {token_path}")
-                    break
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, dict) or not artifacts:
+        errors.append("manifest artifacts must be a non-empty object")
+        return {"ok": False, "errors": errors, "token_count": len(expected_paths)}
+
+    declared = manifest.get("platforms")
+    if "platforms" in manifest:
+        if (not isinstance(declared, list) or not declared
+                or any(not isinstance(item, str) or item not in PLATFORM_FILES for item in declared)
+                or len(set(declared)) != len(declared)):
+            errors.append("manifest platforms must be a non-empty list of unique supported targets")
+            return {"ok": False, "errors": errors, "token_count": len(expected_paths)}
+    else:
+        declared = [target for target, files in PLATFORM_FILES.items() if any(name in artifacts for name in files)]
+
+    selected = requested if requested is not None else declared
+    if requested is not None and "platforms" in manifest and set(requested) != set(declared):
+        errors.append("manifest platform mismatch")
+    expected_files = {filename for target in selected for filename in PLATFORM_FILES[target]}
+    for filename in sorted(set(artifacts) - expected_files):
+        errors.append(f"unexpected artifact entry: {filename}")
+    for filename in sorted(expected_files - set(artifacts)):
+        errors.append(f"missing artifact entry: {filename}")
+
+    renderers = _render_platforms(expected_hash, _resolved_profiles(document))
+    # Iterate only known filenames. Manifest entries cannot select arbitrary paths.
+    for target in selected:
+        for filename, content in renderers[target].items():
+            expected_artifact_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()
+            if filename in artifacts and artifacts[filename] != expected_artifact_hash:
+                errors.append(f"manifest artifact hash mismatch: {filename}")
+            path = output / filename
+            try:
+                actual = path.read_bytes()
+            except FileNotFoundError:
+                errors.append(f"missing artifact: {filename}")
+                continue
+            except OSError as error:
+                errors.append(f"cannot read artifact: {filename}: {error}")
+                continue
+            if hashlib.sha256(actual).hexdigest() != expected_artifact_hash:
+                errors.append(f"artifact source mismatch: {filename}")
     return {"ok": not errors, "errors": errors, "token_count": len(expected_paths)}
 
 
@@ -699,6 +759,8 @@ def _parser() -> argparse.ArgumentParser:
     parity = commands.add_parser("parity", help="Verify generated semantic parity")
     parity.add_argument("tokens", type=Path)
     parity.add_argument("generated_directory", type=Path)
+    parity.add_argument("--platform", choices=["all", *PLATFORM_FILES],
+                        help="Require this exact target scope instead of inferring it from the manifest")
     return parser
 
 
@@ -712,7 +774,7 @@ def main(argv: list[str] | None = None) -> int:
             paths = generate_all(document, args.out, args.platform)
             report = {"ok": True, "artifacts": [str(path) for path in paths]}
         else:
-            report = check_parity(document, args.generated_directory)
+            report = check_parity(document, args.generated_directory, args.platform)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report.get("ok") else 1
     except TokenError as error:

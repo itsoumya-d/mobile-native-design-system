@@ -1,9 +1,12 @@
 {
   "artifacts": {
-    "MobileTheme.swift": "c76def5e6ec71569e4607623bfd3f6c1f8eeb396a6fb37bd697f9a543ad893c3",
-    "MobileTokens.swift": "b33c3e207fa492fd75d809c9625a10c8e648cc47cfea5f35a33db721932dc83d"
+    "MobileTheme.swift": "ac542c6bccffcd799c253aace0c72a67996f484d2ab32195b310bb65d8fc06f4",
+    "MobileTokens.swift": "c755250208f783024ba284d1e8b62bb1994cef30a5c7f901748dffb2f2b43dc2"
   },
   "format": "mobile-native-token-manifest/1",
+  "platforms": [
+    "swift"
+  ],
   "profiles": [
     "android",
     "base",

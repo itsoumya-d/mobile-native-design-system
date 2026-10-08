@@ -1,9 +1,12 @@
 {
   "artifacts": {
-    "MobileTheme.kt": "dca070d705fd022334fa6f368ac0260fc347ef93f051327c2281e5e2a321d135",
-    "MobileTokens.kt": "9ec193359874154067bfac77618ca44373c4522eaad936b2480a031a9f235eab"
+    "MobileTheme.kt": "152bb36073b7d41e0b2b39f944c85f3dab53c3a3b42e020f21a43e548dc95042",
+    "MobileTokens.kt": "deddc8a129164d07c7fe71ebb9e25b5a088e94a21c0ce73309b930fae4b86a46"
   },
   "format": "mobile-native-token-manifest/1",
+  "platforms": [
+    "kotlin"
+  ],
   "profiles": [
     "android",
     "base",
