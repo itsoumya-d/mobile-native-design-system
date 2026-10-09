@@ -283,12 +283,24 @@ def _color_paths(profiles: dict[str, dict[str, Any]]) -> list[str]:
 
 
 def _enum_cases(paths: list[str], prefix: str = "") -> list[tuple[str, str]]:
+    # Suffixes must not take a later token's preferred or full-path identifier.
+    reserved = {
+        _identifier(candidate)
+        for path in paths
+        for candidate in (path[len(prefix):] if prefix else path, path)
+    }
     seen: set[str] = set()
     cases: list[tuple[str, str]] = []
     for path in paths:
         name = _identifier(path[len(prefix):] if prefix else path)
         if name in seen:
             name = _identifier(path)
+        if name in seen:
+            base = name
+            suffix = 2
+            while name in seen or name in reserved:
+                name = f"{base}{suffix}"
+                suffix += 1
         seen.add(name)
         cases.append((name, path))
     return cases

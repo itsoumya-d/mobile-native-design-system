@@ -5,6 +5,7 @@ import hashlib
 import subprocess
 import sys
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -152,6 +153,68 @@ class MobileToolingTests(unittest.TestCase):
         audit = load_module("mobile_app_audit")
         report = audit.audit_project(ROOT / "fixtures" / "compose", profile="quick")
         self.assertIn("TokenGalleryApp", {screen["name"] for screen in report["screens"]})
+
+
+class TokenIdentifierTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tokens = load_module("mobile_tokens")
+
+    def test_repeated_normalization_collisions_keep_distinct_enum_names(self) -> None:
+        paths = ["color.brand--blue", "color.brand-blue", "color.brand_blue"]
+        cases = self.tokens._enum_cases(paths, "color.")
+        self.assertEqual(paths, [path for _, path in cases])
+        self.assertEqual(
+            ["brandBlue", "colorBrandBlue", "colorBrandBlue2"],
+            [name for name, _ in cases],
+        )
+
+    def test_suffixes_do_not_take_another_tokens_normalized_name(self) -> None:
+        paths = [
+            "color.brand--blue", "color.brand-blue", "color.brand_blue",
+            "color.brand__blue", "color.color-brand-blue2", "color.color-brand-blue3",
+        ]
+        cases = dict((path, name) for name, path in self.tokens._enum_cases(paths, "color."))
+        self.assertEqual("colorBrandBlue4", cases["color.brand_blue"])
+        self.assertEqual("colorBrandBlue5", cases["color.brand__blue"])
+        self.assertEqual("colorBrandBlue2", cases["color.color-brand-blue2"])
+        self.assertEqual("colorBrandBlue3", cases["color.color-brand-blue3"])
+        self.assertEqual(len(paths), len(set(cases.values())))
+
+    def test_noncolliding_and_two_way_collision_names_are_unchanged(self) -> None:
+        self.assertEqual(
+            [("brandBlue", "color.brand-blue"), ("colorBrandBlue", "color.brand_blue"),
+             ("surfacePrimary", "color.surface.primary")],
+            self.tokens._enum_cases(
+                ["color.brand-blue", "color.brand_blue", "color.surface.primary"], "color."
+            ),
+        )
+
+    def test_generated_enums_preserve_every_color_path_once(self) -> None:
+        document = json.loads((ASSETS / "financial-wellbeing.tokens.json").read_text(encoding="utf-8"))
+        for key in ("brand--blue", "brand-blue", "brand_blue", "brand__blue", "color-brand-blue2"):
+            document["color"][key] = {"$type": "color", "$value": "#123456"}
+        self.assertTrue(self.tokens.validate_document(document)["ok"])
+        color_paths = {path for path in self.tokens.resolve_document(document) if path.startswith("color.")}
+        patterns = {
+            "MobileTokens.swift": r'^    case (\w+) = "(color\.[^"]+)"$',
+            "MobileTokens.kt": r'^    (\w+)\("(color\.[^"]+)"\)[,]?$',
+            "mobile_tokens.dart": r'^      MobileColorToken\.(\w+) => "(color\.[^"]+)",$',
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            self.tokens.generate_all(document, output)
+            original = {path.name: path.read_bytes() for path in output.iterdir()}
+            for filename, pattern in patterns.items():
+                with self.subTest(filename=filename):
+                    entries = re.findall(pattern, (output / filename).read_text(encoding="utf-8"), re.MULTILINE)
+                    self.assertEqual(color_paths, {path for _, path in entries})
+                    self.assertEqual(len(color_paths), len(entries))
+                    self.assertEqual(len(entries), len({name for name, _ in entries}))
+            # Resolution is sorted: authoring order must not change names or bytes.
+            document["color"] = dict(reversed(list(document["color"].items())))
+            self.tokens.generate_all(document, output)
+            self.assertEqual(original, {path.name: path.read_bytes() for path in output.iterdir()})
+            self.assertTrue(self.tokens.check_parity(document, output, platform="all")["ok"])
 
 
 class TokenParityTests(unittest.TestCase):
