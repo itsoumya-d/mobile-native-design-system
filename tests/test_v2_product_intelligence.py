@@ -195,6 +195,101 @@ final appTheme = ThemeData(
     return app
 
 
+class DirtyWorktreeGuardTests(unittest.TestCase):
+    def git(self, root: Path, *args: str) -> None:
+        subprocess.run(
+            ["git", "-C", str(root), *args],
+            check=True,
+            capture_output=True,
+        )
+
+    def commit_fixture(self, root: Path) -> None:
+        self.git(root, "init")
+        self.git(root, "add", ".")
+        self.git(
+            root, "-c", "user.name=Guard Test", "-c", "user.email=guard@example.invalid",
+            "commit", "-m", "Initial fixture",
+        )
+
+    def approved_plan(self, app: Path) -> dict:
+        model = load_module("mobile_project").scan_project(app, profile="full")
+        plan = load_module("mobile_plan").create_screen_plan(model, "HomeScreen")
+        plan["approval"] = {"status": "approved"}
+        return plan
+
+    def test_preexisting_edits_require_acknowledgement_at_root_and_nested(self) -> None:
+        guard = load_module("mobile_guard")
+        relative = "lib/features/home/home_screen.dart"
+        for nested in (False, True):
+            with self.subTest(nested=nested), tempfile.TemporaryDirectory() as temp:
+                repository = Path(temp)
+                app = write_flutter_product(repository / "apps" if nested else repository)
+                self.commit_fixture(repository if nested else app)
+                source = app / relative
+                source.write_text(source.read_text(encoding="utf-8") + "\n// User edit\n", encoding="utf-8")
+                # A fresh fingerprint must not silently acknowledge existing edits.
+                plan = self.approved_plan(app)
+                with self.assertRaisesRegex(guard.GuardError, "unacknowledged changes"):
+                    guard.capture_baseline(app, plan)
+                plan["approval"]["preexisting_changes_acknowledged"] = True
+                baseline = guard.capture_baseline(app, plan)
+                self.assertEqual([{"status": " M", "path": relative}], baseline["dirty_state"])
+
+    def test_nested_app_ignores_sibling_path_matching_allowed_file(self) -> None:
+        guard = load_module("mobile_guard")
+        with tempfile.TemporaryDirectory() as temp:
+            repository = Path(temp)
+            app = write_flutter_product(repository / "apps")
+            self.commit_fixture(repository)
+            sibling = repository / "lib/features/home/home_screen.dart"
+            sibling.parent.mkdir(parents=True)
+            sibling.write_text("// Unrelated sibling change\n", encoding="utf-8")
+            baseline = guard.capture_baseline(app, self.approved_plan(app))
+            self.assertEqual([], baseline["dirty_state"])
+
+    def test_untracked_paths_with_git_quoting_characters_require_acknowledgement(self) -> None:
+        guard = load_module("mobile_guard")
+        names = ["space screen.dart", 'quote"screen.dart', "tab\tscreen.dart",
+                 "line\nscreen.dart", "caf\u00e9.dart", "arrow -> screen.dart"]
+        with tempfile.TemporaryDirectory() as temp:
+            repository = Path(temp)
+            app = write_flutter_product(repository / "apps")
+            self.commit_fixture(repository)
+            for name in names:
+                (app / "lib" / name).write_text("// New user file\n", encoding="utf-8")
+            for name in names:
+                with self.subTest(name=name):
+                    plan = self.approved_plan(app)
+                    plan["file_scope"]["allowed"] = [f"lib/{name}"]
+                    plan["file_scope"]["protected"] = []
+                    with self.assertRaisesRegex(guard.GuardError, "unacknowledged changes"):
+                        guard.capture_baseline(app, plan)
+            self.assertEqual(
+                {f"lib/{name}" for name in names},
+                {item["path"] for item in guard._dirty_state(app)},
+            )
+
+    def test_staged_rename_records_both_paths_and_rejects_unacknowledged_destination(self) -> None:
+        guard = load_module("mobile_guard")
+        with tempfile.TemporaryDirectory() as temp:
+            repository = Path(temp)
+            app = write_flutter_product(repository / "apps")
+            self.commit_fixture(repository)
+            before = "lib/features/home/home_screen.dart"
+            after = 'lib/features/home/renamed "home".dart'
+            self.git(app, "mv", before, after)
+            plan = self.approved_plan(app)
+            self.assertEqual([after], plan["file_scope"]["allowed"])
+            with self.assertRaisesRegex(guard.GuardError, "unacknowledged changes"):
+                guard.capture_baseline(app, plan)
+            plan["approval"]["preexisting_changes_acknowledged"] = True
+            baseline = guard.capture_baseline(app, plan)
+            self.assertEqual(
+                [{"status": "R ", "path": after}, {"status": "R ", "path": before}],
+                baseline["dirty_state"],
+            )
+
+
 class ProductIntelligenceV2Tests(unittest.TestCase):
     def test_documented_v2_cli_pipeline_runs_end_to_end(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -51,26 +52,36 @@ def _safe_paths(root: Path, values: Any, field: str) -> list[str]:
 
 
 def _dirty_state(root: Path) -> list[dict[str, str]]:
-    git_marker = root / ".git"
-    if not git_marker.exists():
-        parent = root
-        while parent != parent.parent and not (parent / ".git").exists():
-            parent = parent.parent
-        if not (parent / ".git").exists():
-            return []
+    repository_root = root
+    while repository_root != repository_root.parent and not (repository_root / ".git").exists():
+        repository_root = repository_root.parent
+    if not (repository_root / ".git").exists():
+        return []
     completed = subprocess.run(
-        ["git", "-C", str(root), "status", "--porcelain=v1", "--untracked-files=all"],
-        text=True,
+        ["git", "-C", str(repository_root), "status", "--porcelain=v1", "-z", "--untracked-files=all"],
         capture_output=True,
         check=False,
     )
     if completed.returncode:
         return [{"status": "unknown", "path": "<git-status-unavailable>"}]
     records: list[dict[str, str]] = []
-    for line in completed.stdout.splitlines():
-        if len(line) < 4:
+    entries = iter(completed.stdout.split(b"\0"))
+    for entry in entries:
+        if len(entry) < 4:
             continue
-        records.append({"status": line[:2], "path": line[3:]})
+        status = os.fsdecode(entry[:2])
+        paths = [entry[3:]]
+        if "R" in status or "C" in status:
+            # NUL-delimited porcelain lists the destination before the source.
+            original = next(entries)
+            if "R" in status:
+                paths.append(original)
+        for path in paths:
+            try:
+                relative = (repository_root / os.fsdecode(path)).relative_to(root)
+            except ValueError:
+                continue  # Changes in sibling apps are outside this baseline.
+            records.append({"status": status, "path": relative.as_posix()})
     return records
 
 
