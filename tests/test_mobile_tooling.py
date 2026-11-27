@@ -154,6 +154,27 @@ class MobileToolingTests(unittest.TestCase):
         report = audit.audit_project(ROOT / "fixtures" / "compose", profile="quick")
         self.assertIn("TokenGalleryApp", {screen["name"] for screen in report["screens"]})
 
+    def test_app_audit_flags_ai_agent_workflow_without_fallback(self) -> None:
+        audit = load_module("mobile_app_audit")
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            swift = root / "swift"
+            (swift / "TokenGallery.xcodeproj").mkdir(parents=True)
+            (swift / "App").mkdir()
+            (swift / "App" / "FinanceAgentView.swift").write_text(
+                "import SwiftUI\nstruct FinanceAgentView: View {\n  var body: some View {\n    Text(\"AI Agent Assistant\")\n      .accessibilityLabel(\"Agent\")\n  }\n}",
+                encoding="utf-8",
+            )
+            (swift / "App" / "SafeAgentView.swift").write_text(
+                "import SwiftUI\nstruct SafeAgentView: View {\n  var body: some View {\n    VStack {\n      Text(\"AI Agent\")\n        .accessibilityLabel(\"Agent\")\n      Button(\"Manual fallback retry\", action: {})\n    }\n  }\n}",
+                encoding="utf-8",
+            )
+            report = audit.audit_project(swift, profile="quick")
+            agent_findings = [f for f in report["findings"] if f["id"] == "agent.ai-fallback-review"]
+            self.assertEqual(1, len(agent_findings))
+            self.assertEqual("App/FinanceAgentView.swift", agent_findings[0]["path"])
+            self.assertEqual("Ensure reliable graceful degradation and fallback options for AI-assisted workflows.", agent_findings[0]["user_benefit"])
+
 
 class TokenIdentifierTests(unittest.TestCase):
     def setUp(self) -> None:

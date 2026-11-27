@@ -42,6 +42,8 @@ MOTION_SIGNALS = {
     "swiftui": r"withAnimation|\.animation\(|transition\(",
     "compose": r"animate[A-Za-z]*AsState|AnimatedVisibility|updateTransition",
 }
+AI_AGENT_SIGNALS = r"\b(?:agent|assistant|copilot|llm|stream(?:ing)?|prompt|chat[-_]?completion)\b"
+AI_FALLBACK_SIGNALS = r"\b(?:fallback|retry|degraded|offline|timeout|manual[-_]?override|error_boundary)\b"
 
 
 def _read(path: Path) -> str:
@@ -127,6 +129,8 @@ def _capabilities(framework: str, dependencies: set[str]) -> list[dict[str, Any]
             capabilities.append(_capability("expo-routing", 80, ["vercel-react-native-skills"], "Expo is declared.", "Enable Expo-specific guidance only in this project."))
     if "convex" in dependencies:
         capabilities.append(_capability("convex-boundary", 85, ["convex-create-component"], "The app declares Convex.", "Keep typed async UI state at the component boundary."))
+    if any(k in dependencies for k in ("openai", "anthropic", "langchain", "google-generativeai")) or any("ai" in d.lower() for d in dependencies):
+        capabilities.append(_capability("ai-agent-resilience", 88, ["mobile-original"], "The app integrates AI or agent workflows.", "Design deterministic evaluation, timeouts, and fallback UI flows so AI outputs are safe and reliable."))
     return sorted(capabilities, key=lambda item: (-item["priority"], item["id"]))
 
 
@@ -151,6 +155,8 @@ def _screen_records(root: Path, files: list[Path], framework: str) -> list[dict[
                     "adaptive": bool(re.search(ADAPTIVE_SIGNALS[framework], text)),
                     "accessibility": bool(re.search(SEMANTIC_SIGNALS[framework], text)),
                     "async_states": bool(re.search(r"loading|error|empty|retry", text, re.IGNORECASE)),
+                    "ai_agent": bool(re.search(AI_AGENT_SIGNALS, text, re.IGNORECASE)),
+                    "ai_fallback": bool(re.search(AI_FALLBACK_SIGNALS, text, re.IGNORECASE)),
                 },
             })
     return records
@@ -201,7 +207,9 @@ def _enrich_findings(
                 **finding,
                 "current_code_evidence": evidence,
                 "user_benefit": (
-                    "Improve screen-reader comprehension and action clarity."
+                    "Ensure reliable graceful degradation and fallback options for AI-assisted workflows."
+                    if finding["id"].startswith("agent.")
+                    else "Improve screen-reader comprehension and action clarity."
                     if finding["id"].startswith("accessibility.")
                     else "Prevent clipping and hierarchy loss across text scales and device sizes."
                     if finding["id"].startswith("adaptive.")
@@ -226,6 +234,8 @@ def _findings(root: Path, files: list[Path], framework: str, profile: str) -> li
             findings.append(_finding("adaptive.layout-review", "heuristic", relative, "Review text scaling, RTL, insets, and compact through tablet layout behavior."))
         if re.search(r"(?:width|height|frame|SizedBox)\s*[:(].{0,30}(?:[3-9]\d\d|[1-9]\d{3})", text):
             findings.append(_finding("layout.fixed-extent", "proven", relative, "A large fixed extent was found; verify it does not clip at large text or tablet widths."))
+        if re.search(AI_AGENT_SIGNALS, text, re.IGNORECASE) and not re.search(AI_FALLBACK_SIGNALS, text, re.IGNORECASE):
+            findings.append(_finding("agent.ai-fallback-review", "heuristic", relative, "An AI assistant or agent workflow was detected without explicit fallback, retry, or degraded state handling."))
         if framework == "react-native" and "FlatList" in text and "keyExtractor" not in text:
             findings.append(_finding("react-native.list-key-review", "heuristic", relative, "Review stable keys for the native virtualized list."))
     return sorted(findings, key=lambda item: (item["path"], item["id"], item["evidence_level"]))
