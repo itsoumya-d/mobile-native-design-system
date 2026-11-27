@@ -1,0 +1,47 @@
+{
+  "lock_version": 1,
+  "captured_at": "2026-11-27",
+  "policy": "Official regulator and statutory sources only",
+  "sources": [
+    {
+      "country": "in",
+      "regulator": "Reserve Bank of India",
+      "topic": "Master Direction - Know Your Customer (KYC) Direction, 2016 (V-CIP & Digital Onboarding)",
+      "url": "https://rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11566",
+      "checked_on": "2026-11-27",
+      "license_or_statute": "Statutory Regulatory Direction (Banking Regulation Act 1949)"
+    },
+    {
+      "country": "in",
+      "regulator": "Unique Identification Authority of India (UIDAI)",
+      "topic": "Aadhaar Legal Framework & Authentication Regulations",
+      "url": "https://uidai.gov.in/en/legal-framework.html",
+      "checked_on": "2026-11-27",
+      "license_or_statute": "Statutory Act & Regulations (Aadhaar Act 2016)"
+    },
+    {
+      "country": "in",
+      "regulator": "Ministry of Electronics and Information Technology (MeitY)",
+      "topic": "Digital Personal Data Protection Act, 2023",
+      "url": "https://www.meity.gov.in/digital-personal-data-protection-act-2023",
+      "checked_on": "2026-11-27",
+      "license_or_statute": "Act No. 22 of 2023"
+    },
+    {
+      "country": "in",
+      "regulator": "Reserve Bank of India",
+      "topic": "Guidelines on Digital Lending (KFS & Mobile Permissions Fence)",
+      "url": "https://rbi.org.in/Scripts/NotificationUser.aspx?Id=12382",
+      "checked_on": "2026-11-27",
+      "license_or_statute": "RBI Notification DOR.CRE.REC.66/21.07.001/2022-23"
+    },
+    {
+      "country": "global",
+      "regulator": "World Wide Web Consortium (W3C)",
+      "topic": "Web Content Accessibility Guidelines (WCAG) 2.1 - Mobile Touch Targets & Contrast",
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/target-size.html",
+      "checked_on": "2026-11-27",
+      "license_or_statute": "W3C Recommendation"
+    }
+  ]
+}

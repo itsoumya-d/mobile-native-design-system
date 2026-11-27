@@ -153,3 +153,19 @@ and [`audit/sources.lock.json`](audit/sources.lock.json).
 
 Security contact: see [SECURITY.md](SECURITY.md). Release details are in
 [`docs/RELEASE_NOTES.md`](docs/RELEASE_NOTES.md).
+
+## Regulatory and onboarding compliance country packs
+
+Mobile applications and client SDKs onboarding users must adhere to jurisdiction-specific regulatory mandates across identity, KYC, data protection, and accessibility. Country rules are maintained as data in `packs/<country>/rules.json` with official statutory references in `packs/sources.lock.json`.
+
+| Country Code | Jurisdiction | Rules as of | Primary Regulators Covered | Status |
+|---|---|---|---|---|
+| `global` | International / Base | 2026-11-27 | W3C (WCAG 2.1 touch targets, color contrast, motion) | Active |
+| `in` | India | 2026-11-27 | Reserve Bank of India (RBI), UIDAI (Aadhaar), MeitY (DPDP Act) | Active |
+
+### Not covered yet
+- Specialized state-level gaming licenses
+- Cross-border export control declarations
+
+Not legal or tax advice - check the official source.
+

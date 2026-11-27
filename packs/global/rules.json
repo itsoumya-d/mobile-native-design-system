@@ -1,0 +1,43 @@
+{
+  "format": "mobile-native-compliance-pack/1",
+  "country": "global",
+  "country_name": "Global / Base",
+  "as_of": "2026-11-27",
+  "rules": [
+    {
+      "id": "global.w3c.touch-target-size",
+      "title": "Minimum Touch Target Size",
+      "decides": "Ensures all primary touch interactive controls maintain at least 44x44 pt/dp hit targets.",
+      "category": "accessibility",
+      "values": {
+        "min_width_dp": 44,
+        "min_height_dp": 44
+      },
+      "source_url": "https://www.w3.org/WAI/WCAG21/Understanding/target-size.html",
+      "checked_on": "2026-11-27"
+    },
+    {
+      "id": "global.w3c.color-contrast",
+      "title": "Minimum Text Color Contrast Ratio",
+      "decides": "Requires normal text to have a minimum contrast ratio of 4.5:1 against its background.",
+      "category": "accessibility",
+      "values": {
+        "min_contrast_normal": 4.5,
+        "min_contrast_large": 3.0
+      },
+      "source_url": "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html",
+      "checked_on": "2026-11-27"
+    },
+    {
+      "id": "global.w3c.motion-reduction",
+      "title": "Reduced Motion Respect",
+      "decides": "Requires animations to support non-essential motion suppression when system prefers-reduced-motion is active.",
+      "category": "accessibility",
+      "values": {
+        "honor_prefers_reduced_motion": true
+      },
+      "source_url": "https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html",
+      "checked_on": "2026-11-27"
+    }
+  ]
+}

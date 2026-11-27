@@ -1,0 +1,63 @@
+{
+  "format": "mobile-native-compliance-pack/1",
+  "country": "in",
+  "country_name": "India",
+  "as_of": "2026-11-27",
+  "rules": [
+    {
+      "id": "in.rbi.vcip-geotag-livetrack",
+      "title": "RBI V-CIP Live Geo-tagging and Liveness Verification",
+      "decides": "Requires live audio-visual interaction, liveness detection, and geo-tagging ensuring user is physically within Indian territory during digital KYC onboarding.",
+      "category": "kyc_onboarding",
+      "values": {
+        "geo_fencing_required": true,
+        "allowed_country": "IN",
+        "live_face_liveness": true,
+        "audit_trail_timestamp": true
+      },
+      "source_url": "https://rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11566",
+      "checked_on": "2026-11-27"
+    },
+    {
+      "id": "in.uidai.aadhaar-masking-consent",
+      "title": "UIDAI Explicit Consent and Number Masking",
+      "decides": "Requires explicit affirmative consent prior to collection and enforces masking of the first eight digits (XXXX-XXXX-1234) on all client UI surfaces and logs.",
+      "category": "identity_privacy",
+      "values": {
+        "affirmative_consent_required": true,
+        "mask_first_eight_digits": true,
+        "allow_physical_card_storage": false
+      },
+      "source_url": "https://uidai.gov.in/en/legal-framework.html",
+      "checked_on": "2026-11-27"
+    },
+    {
+      "id": "in.meity.dpdp-multilingual-notice",
+      "title": "MeitY DPDP Multilingual Notice and Consent Architecture",
+      "decides": "Requires itemized consent notice in clear, plain language in English and Eighth Schedule languages, with an accessible one-tap withdrawal path.",
+      "category": "data_protection",
+      "values": {
+        "multilingual_notice": true,
+        "scheduled_languages_support": true,
+        "granular_purpose_selection": true,
+        "accessible_withdrawal_mechanism": true
+      },
+      "source_url": "https://www.meity.gov.in/digital-personal-data-protection-act-2023",
+      "checked_on": "2026-11-27"
+    },
+    {
+      "id": "in.rbi.digital-lending-kfs",
+      "title": "RBI Digital Lending Key Fact Statement & Permission Fence",
+      "decides": "Mandates standardized Key Fact Statement (KFS) presentation before contract execution and strictly forbids accessing mobile contacts, media, or call logs.",
+      "category": "digital_lending",
+      "values": {
+        "kfs_pre_contract_display": true,
+        "forbid_contacts_permission": true,
+        "forbid_media_storage_permission": true,
+        "cooling_off_period_display": true
+      },
+      "source_url": "https://rbi.org.in/Scripts/NotificationUser.aspx?Id=12382",
+      "checked_on": "2026-11-27"
+    }
+  ]
+}
