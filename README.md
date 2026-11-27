@@ -153,3 +153,12 @@ and [`audit/sources.lock.json`](audit/sources.lock.json).
 
 Security contact: see [SECURITY.md](SECURITY.md). Release details are in
 [`docs/RELEASE_NOTES.md`](docs/RELEASE_NOTES.md).
+
+## Regulatory Country Packs
+
+| Country Code | Jurisdiction | Rules as of | Official Source Authority |
+|---|---|---|---|
+| `in` | India | 2026-11-27 | Reserve Bank of India (RBI Master Directions) |
+
+Not legal or tax advice - check the official source.
+

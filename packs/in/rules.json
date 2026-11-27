@@ -1,0 +1,37 @@
+{
+  "country": "in",
+  "jurisdiction": "Reserve Bank of India (RBI)",
+  "rules": [
+    {
+      "id": "IN-NEOBANK-2FA-01",
+      "decision": "Two-factor authentication mandatory for all customer-initiated financial mobile transactions",
+      "values": {
+        "factor_one": "possession_device",
+        "factor_two": "biometric_or_otp",
+        "timeout_seconds": 300
+      },
+      "source_url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11566",
+      "checked_on": "2026-11-27"
+    },
+    {
+      "id": "IN-DATA-LOCALIZATION-02",
+      "decision": "Payment transaction data and mobile telemetry logs must be stored within India",
+      "values": {
+        "storage_mandate": "domestic_only",
+        "cross_border_processing_allowance_hours": 24
+      },
+      "source_url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=11248",
+      "checked_on": "2026-11-27"
+    },
+    {
+      "id": "IN-DEVICE-SECURITY-03",
+      "decision": "Neobank mobile clients must detect rooted or jailbroken OS runtimes and restrict wallet access",
+      "values": {
+        "root_detection_action": "block_financial_actions",
+        "tamper_detection_required": true
+      },
+      "source_url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12009",
+      "checked_on": "2026-11-27"
+    }
+  ]
+}
